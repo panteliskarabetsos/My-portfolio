@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { motion, useCycle } from "framer-motion";
 import { useTheme } from "next-themes";
@@ -41,17 +41,13 @@ export default function Home() {
     return (
       <main className="min-h-screen bg-background text-foreground font-sans transition-colors overflow-hidden">
         {/* Prevents early render of the Header before hydration */}
-        <div className="opacity-0 pointer-events-none">
-      
-        </div>
+        <div className="opacity-0 pointer-events-none"></div>
       </main>
     );
   }
 
   return (
     <main className="relative min-h-screen bg-background text-foreground font-sans transition-colors overflow-hidden">
-    
-
       {/* Animated Blob */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
@@ -103,7 +99,10 @@ export default function Home() {
           {/* Contact Button */}
           <Link href="/projects">
             <motion.button
-              whileHover={{ scale: 1.1, boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)" }}
+              whileHover={{
+                scale: 1.1,
+                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+              }}
               whileTap={{ scale: 0.98 }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -115,9 +114,11 @@ export default function Home() {
               }}
               className={`mt-6 px-6 py-3 sm:px-8 sm:py-4 rounded-full text-white font-semibold 
                 transition-all bg-gradient-to-r 
-                ${activeTheme === "dark" 
-                  ? 'from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700' 
-                  : 'from-amber-400 to-pink-400 hover:from-amber-500 hover:to-pink-500'} 
+                ${
+                  activeTheme === "dark"
+                    ? "from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
+                    : "from-amber-400 to-pink-400 hover:from-amber-500 hover:to-pink-500"
+                } 
                 hover:opacity-90 
                 shadow-lg ring-2 ring-transparent hover:ring-amber-200 dark:hover:ring-indigo-200 
                 backdrop-blur-xl text-sm sm:text-base lg:text-lg`}

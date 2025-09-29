@@ -1,175 +1,557 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
-
-
+import { motion, useScroll } from "framer-motion";
+import { useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   LayoutDashboard,
   Zap,
   Code,
   BrainCog,
-} from 'lucide-react';
+  Download,
+  Sparkles,
+  GraduationCap,
+  Globe2,
+  Mail,
+  Github,
+  Linkedin,
+  CalendarDays,
+  Rocket,
+  Briefcase,
+  ShieldCheck,
+} from "lucide-react";
+
 export default function About() {
-  const { theme } = useTheme();
-  const isLight = theme === 'light';
+  // Motion helpers
+  const fadeUp = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-20% 0px -10% 0px" },
+    transition: { duration: 0.6, ease: "easeOut" },
+  };
 
-  const blurMain = isLight ? 'blur-[130px]' : 'blur-[110px]';
-  const blurSub = isLight ? 'blur-[150px]' : 'blur-[130px]';
+  // Timeline + scroll progress
+  const tlRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: tlRef,
+    offset: ["start 0.9", "end 0.2"],
+  });
 
-  // Color arrays for smooth cycling
-  const lightMainColors = ['#fb923c80', '#facc1580', '#f9731680']; // orange, amber, red-ish
-  const lightSubColors = ['#fcd34d50', '#fde04750', '#fbbf2450'];   // yellow tones
+  const timeline = [
+    {
+      date: "2025",
+      title: "Final year of M.Eng",
+      text: "Final year of studies in University of West Attica.",
+      icon: <Rocket className="h-4 w-4" />,
+      tags: ["Master of Engineering", "UNIWA"],
+    },
+    {
+      date: "2022",
+      title: "Started development and exploration",
+      text: "Developed web applications and a lot of University projects.",
+      icon: <Briefcase className="h-4 w-4" />,
+      tags: ["Web", "Python", "Java", "C/C++", "JavaScript"],
+    },
+    {
+      date: "2023",
+      title: "Started M.Eng.",
+      text: "University of West Attica - Informatics & Computer Engineering.",
+      icon: <GraduationCap className="h-4 w-4" />,
+      tags: ["Athens", "UNIWA"],
+    },
+  ];
 
-  const darkMainColors = ['#8b5cf680', '#6366f180', '#0ea5e980']; // purple, indigo, cyan
-  const darkSubColors = ['#ec489950', '#a855f750', '#38bdf850'];  // fuchsia, violet, blue
+  const certificates = [
+    {
+      name: "Career Essentials in Cybersecurity",
+      issuer: "Microsoft",
+      year: "2025",
+      url: "https://www.linkedin.com/learning/certificates/2ea8615ffb07e941052c943470d765532c4e194d15fa52255461b95ed28484ad",
+    },
+    {
+      name: "Career Essentials in Data Analysis ",
+      issuer: "Microsoft",
+      year: "2025",
+      url: "https://www.linkedin.com/learning/certificates/afa9ab76624e5e327efa56ccd455ec4cf063ad7e239a3e30dc251f2f3b3d2084",
+    },
+    {
+      name: "Career Essentials in Generative AI ",
+      issuer: "Microsoft",
+      year: "2025",
+      url: "https://www.linkedin.com/learning/certificates/a1aa2bff8f1da79a4dd427eb3b62593862480b02e8ef3d8a7079580d34056b10",
+    },
+    {
+      name: "Career Essentials in GitHub Professional Certificate ",
+      issuer: "GitHub",
+      year: "2025",
+      url: "https://www.linkedin.com/learning/certificates/03b7d9e09872660a0398fd3c5e2ca2097927210c1718c80c0387e0db363b29ff",
+    },
+    {
+      name: "Workshop on Cybersecurity in Critical Sectors",
+      issuer: "University of Piraeus & University of West Attica",
+      year: "2025",
+    },
+    {
+      name: "Career Essentials in Software Development",
+      issuer: "Microsoft",
+      year: "2025",
+      url: "https://www.linkedin.com/learning/certificates/a577679ee6bdd94aaaf96fe64f7301bea1d29a4a13a8e2b8be9908e28f12480b",
+    },
+  ];
 
-  const mainColors = isLight ? lightMainColors : darkMainColors;
-  const subColors = isLight ? lightSubColors : darkSubColors;
+  // Active year for sticky badge
+  const [activeYear, setActiveYear] = useState(timeline[0]?.date ?? "");
 
   return (
-    <main className="relative min-h-screen bg-background text-foreground transition-colors duration-500 overflow-hidden cursor-none">
-     
+    <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]"
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] bg-[size:36px_36px] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)]" />
+      </div>
 
-      {/* Main Blob */}
       <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          x: [0, 80, -80, 0],
-          y: [0, -60, 40, 0],
-          rotate: [0, 20, -20, 0],
-          backgroundColor: mainColors,
-        }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          repeatType: 'mirror',
-        }}
-        className={`absolute z-0
-          -top-[300px] -left-[200px]
-          sm:-top-[500px] sm:-left-[400px]
-          md:-top-[700px] md:-left-[500px]
-          w-[600px] h-[600px]
-          sm:w-[900px] sm:h-[900px]
-          md:w-[1400px] md:h-[1400px]
-          opacity-70 sm:opacity-80 md:opacity-90
-          mix-blend-multiply dark:mix-blend-screen
-          brightness-125
-          rounded-full ${blurMain}`}
+        aria-hidden
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 0.35, scale: [0.95, 1.05, 1] }}
+        transition={{ duration: 12, repeat: Infinity, repeatType: "reverse" }}
+        className="pointer-events-none absolute -top-40 -left-40 z-0 h-[620px] w-[620px] rounded-full blur-[160px]
+                   bg-gradient-to-br from-yellow-300 via-orange-300 to-pink-300
+                   dark:from-pink-500 dark:via-purple-600 dark:to-indigo-500"
+      />
+      <motion.div
+        aria-hidden
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 0.3, scale: [1, 1.08, 1] }}
+        transition={{ duration: 14, repeat: Infinity, repeatType: "reverse" }}
+        className="pointer-events-none absolute -bottom-44 -right-40 z-0 h-[540px] w-[540px] rounded-full blur-[140px]
+                   bg-gradient-to-br from-rose-300 via-amber-200 to-emerald-200
+                   dark:from-indigo-500 dark:via-sky-500 dark:to-cyan-400"
       />
 
-      {/* Sub Blob */}
-      <motion.div
-        animate={{
-          scale: [1, 1.1, 1],
-          x: [0, -60, 80, 0],
-          y: [0, 80, -60, 0],
-          rotate: [0, -15, 15, 0],
-          backgroundColor: subColors,
-        }}
-        transition={{
-          duration: 32,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          repeatType: 'mirror',
-        }}
-        className={`absolute z-0
-          -bottom-[120px] -right-[150px]
-          sm:-bottom-[250px] sm:-right-[300px]
-          md:-bottom-[350px] md:-right-[400px]
-          w-[500px] h-[500px]
-          sm:w-[800px] sm:h-[800px]
-          md:w-[1000px] md:h-[1000px]
-          opacity-60 sm:opacity-70 md:opacity-80
-          mix-blend-multiply dark:mix-blend-screen
-          brightness-110
-          rounded-full ${blurSub}`}
-      />
-      {/* Content */}
-      <section className="relative z-10 flex-grow px-6 md:px-20 pt-28 sm:pt-36 md:pt-44 lg:pt-52 pb-16 sm:pb-32 max-w-4xl mx-auto text-center space-y-12">
+      {/* ===== Content ===== */}
+      <section className="relative z-10 mx-auto flex max-w-6xl flex-col gap-14 px-6 pb-28 pt-32 md:px-8 md:pt-40">
+        {/* HERO */}
+        <header className="grid items-center gap-8 md:grid-cols-[auto,1fr] md:gap-10">
+          <motion.div
+            {...fadeUp}
+            className="relative mx-auto h-28 w-28 overflow-hidden rounded-2xl ring-1 ring-black/5 shadow-lg md:h-36 md:w-36 dark:ring-white/10"
+          >
+            <Image
+              src="/images/profile.jpg"
+              alt="Pantelis Karabetsos portrait"
+              fill
+              sizes="144px"
+              className="object-cover"
+              priority
+            />
+          </motion.div>
 
-      <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className="text-center space-y-6"
-  >
-    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 animate-gradient">
-      About Me
-    </h1>
-    <p className="text-base sm:text-lg md:text-xl leading-relaxed text-muted-foreground">
-    Hi, I’m Pantelis Karabetsos. I’m studying Informatics and Computer Engineering at the University of West Attica and working my way into the field of software development. 
-    I enjoy building web applications that are clean, functional and easy to use.
-    Whether I’m working on a full-stack feature, designing simple UI components or improving performance, 
-    I try to focus on what makes the user experience better. 
-    I’m always looking to learn, improve and build things that are useful and reliable.
-    </p>
-  </motion.div>
+          <motion.div
+            {...fadeUp}
+            transition={{ ...fadeUp.transition, delay: 0.1 }}
+            className="text-center md:text-left"
+          >
+            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1 text-xs text-zinc-700 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              Open to collaboration
+            </div>
 
-  {/*  Expertise */}
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.6, delay: 0.2 }}
-    className={`relative rounded-2xl px-5 sm:px-6 py-6 shadow-xl space-y-6 border backdrop-blur-xl
-      ${isLight
-        ? 'bg-white/60 border-white/30'
-        : 'bg-white/5 border-white/10'
-      }`}
-  >
-    {/*  Ambient glow for light mode */}
-    {isLight && (
-      <div className="absolute inset-0 rounded-2xl bg-white opacity-30 blur-[80px] pointer-events-none" />
-    )}
+            <h1 className="mt-3 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl">
+              Hi, I’m Pantelis.
+            </h1>
+            <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Informatics & Computer Engineering student at the University of
+              West Attica, exploring software engineering, systems and
+              cybersecurity.
+            </p>
 
-      <h2 className="text-xl sm:text-2xl font-bold text-zinc-800 dark:text-white/90 relative z-10">
-        My Focus Areas
-      </h2>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3 md:justify-start">
+              <Link
+                href="/projects"
+                className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300"
+              >
+                View my work →
+              </Link>
+              <Link
+                href="/Resume.pdf"
+                target="_blank"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-900 ring-1 ring-zinc-200 transition hover:bg-zinc-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300 dark:bg-white/10 dark:text-white dark:ring-white/10 dark:hover:bg-white/20"
+              >
+                <Download className="h-4 w-4" />
+                Download Resume
+              </Link>
+            </div>
 
-            <ul className="space-y-4 text-sm sm:text-base text-zinc-700 dark:text-muted-foreground relative z-10 pt-4">
-        {[
-          [
-            <LayoutDashboard className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />,
-            'I enjoy building systems that are intuitive, adaptable and built to scale, whether they live on the web or run quietly behind the scenes.',
-          ],
-          [
-            <Zap className="w-5 h-5 text-pink-500 dark:text-pink-400" />,
-            'Currently diving into AI and generative tools, exploring how they can push creative boundaries and reshape the way we build software.',
-          ],
-          [
-            <Code className="w-5 h-5 text-orange-500 dark:text-orange-400" />,
-            'Writing clean, testable and purposeful code, with a focus on logic, performance and real-world impact.',
-          ],
-          [
-            <BrainCog className="w-5 h-5 text-purple-500 dark:text-purple-400" />,
-            'I’m always learning and experimenting, from new technologies and design patterns to emerging ideas like generative UI.',
-          ],
-        ].map(([icon, text], i) => (
-          <li key={i} className="flex items-start gap-3">
-            <span className="pt-[1px]">{icon}</span>
-            <span>{text}</span>
-          </li>
-        ))}
-      </ul>
+            {/* Socials */}
+            <div className="mt-4 flex items-center justify-center gap-3 md:justify-start">
+              <Link
+                href="mailto:contact@pkarabetsos.com"
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1.5 text-xs text-zinc-700 transition hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
+              >
+                <Mail className="h-4 w-4" /> Contact
+              </Link>
+              <Link
+                href="https://github.com/panteliskarabetsos"
+                target="_blank"
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1.5 text-xs text-zinc-700 transition hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
+              >
+                <Github className="h-4 w-4" /> GitHub
+              </Link>
+              <Link
+                href="https://www.linkedin.com/in/panteliskarabetsos/"
+                target="_blank"
+                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1.5 text-xs text-zinc-700 transition hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
+              >
+                <Linkedin className="h-4 w-4" /> LinkedIn
+              </Link>
+            </div>
+          </motion.div>
+        </header>
 
+        {/* QUICK STATS */}
+        <motion.ul
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.15 }}
+          className="grid gap-4 sm:grid-cols-2 md:grid-cols-3"
+        >
+          {[
+            {
+              icon: <GraduationCap className="h-5 w-5" />,
+              label: "Degree",
+              value: "Master of Engineering (in progress)",
+            },
+            {
+              icon: <Code className="h-5 w-5" />,
+              label: "Interests",
+              value: "Systems · Security · Software",
+            },
+            {
+              icon: <Globe2 className="h-5 w-5" />,
+              label: "Based in",
+              value: "Athens, GR",
+            },
+          ].map((item, i) => (
+            <li
+              key={i}
+              className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-md dark:border-white/10 dark:bg-white/5"
+            >
+              <div className="mb-2 inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                {item.icon}
+                <span>{item.label}</span>
+              </div>
+              <p className="text-base font-semibold text-zinc-900 dark:text-white">
+                {item.value}
+              </p>
+              <span className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 blur-2xl transition group-hover:opacity-100" />
+            </li>
+          ))}
+        </motion.ul>
 
-  </motion.div>
+        {/* ABOUT TEXT */}
+        <motion.div
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.2 }}
+          className="relative rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5"
+        >
+          <Sparkles className="absolute -left-3 -top-3 h-6 w-6 text-indigo-400" />
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
+            About me
+          </h2>
+          <p className="mt-3 text-zinc-700 dark:text-zinc-300">
+            I am final year student of informatics and computer engineering at
+            the University of West Attica. I always try building efficient and
+            secure applications and I am always eager to learn new technologies
+            and improve my skills.
+          </p>
+        </motion.div>
 
+        {/* FOCUS AREAS */}
+        <motion.div
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.25 }}
+          className="relative grid gap-4 md:grid-cols-2"
+        >
+          {[
+            {
+              icon: <LayoutDashboard className="h-5 w-5 text-indigo-500" />,
+              title: "Systems thinking",
+              text: "Intuitive, adaptable solutions across client, server, and infrastructure.",
+            },
+            {
+              icon: <ShieldCheck className="h-5 w-5 text-emerald-500" />,
+              title: "Security mindset",
+              text: "Curious about threat models, hardening, and safe-by-default practices.",
+            },
+            {
+              icon: <Code className="h-5 w-5 text-orange-500" />,
+              title: "Code quality",
+              text: "Clean, testable, purposeful code with an eye on performance.",
+            },
+            {
+              icon: <BrainCog className="h-5 w-5 text-purple-500" />,
+              title: "Always learning",
+              text: "From patterns & architecture to exploratory security labs.",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="group rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/5"
+            >
+              <div className="mb-2 inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                {item.icon}
+                <span className="font-medium text-zinc-900 dark:text-white">
+                  {item.title}
+                </span>
+              </div>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                {item.text}
+              </p>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* TOOLBOX (grouped) */}
+        <motion.div
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.3 }}
+          className="grid gap-4 md:grid-cols-3"
+        >
+          {[
+            {
+              title: "Languages & Scripting",
+              items: ["Python", "C/C++", "Java", "JavaScript", "HTML/CSS"],
+            },
+            {
+              title: "Security & Infra",
+              items: [
+                "Linux",
+                "Docker",
+                "Git",
+                "Wireshark",
+                "Nginx",
+                " Command line",
+              ],
+            },
+            {
+              title: "Data & Tools",
+              items: ["PostgreSQL", "SQLite", "Regex", "CI/CD", "Testing"],
+            },
+          ].map((group, i) => (
+            <div
+              key={i}
+              className="rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5"
+            >
+              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                {group.title}
+              </h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {group.items.map((tool) => (
+                  <span
+                    key={tool}
+                    className="rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
+                  >
+                    {tool}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* TIMELINE */}
+        <motion.section
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.35 }}
+          ref={tlRef}
+          className="relative"
+        >
+          <div className="relative mx-auto max-w-5xl rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
+                Timeline
+              </h3>
+              <span className="sticky top-2 ml-auto hidden rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-semibold text-zinc-700 shadow-sm backdrop-blur md:inline-flex dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
+                {activeYear}
+              </span>
+            </div>
+
+            {/* rail */}
+            <div className="relative mt-8">
+              <div className="pointer-events-none absolute left-1/2 top-0 -z-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-zinc-300/70 to-transparent dark:via-white/20 md:block" />
+              <motion.div
+                style={{ scaleY: scrollYProgress }}
+                className="pointer-events-none absolute left-1/2 top-0 z-0 hidden h-full w-[3px] origin-top -translate-x-1/2 bg-gradient-to-b from-indigo-400 via-purple-400 to-pink-400 md:block"
+              />
+
+              <ol className="space-y-10 md:space-y-16" aria-label="Timeline">
+                {timeline.map((e, i) => {
+                  const isLeft = i % 2 === 0;
+                  return (
+                    <li key={i} className="relative md:flex md:items-center">
+                      {/* center marker */}
+                      <div className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
+                        <span className="relative inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/40 bg-white shadow-md dark:border-white/20 dark:bg-zinc-900">
+                          <span className="absolute h-5 w-5 animate-ping rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 opacity-20" />
+                          <span className="inline-flex h-2.5 w-2.5 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500" />
+                        </span>
+                      </div>
+
+                      <motion.article
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
+                        transition={{
+                          duration: 0.5,
+                          ease: "easeOut",
+                          delay: 0.05 * i,
+                        }}
+                        onViewportEnter={() => setActiveYear(e.date)}
+                        className={`relative rounded-2xl border border-zinc-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/5 md:w-[calc(50%-2rem)] ${
+                          isLeft ? "md:mr-auto md:pr-12" : "md:ml-auto md:pl-12"
+                        }`}
+                      >
+                        {/* connector rail */}
+                        <span
+                          aria-hidden
+                          className={`pointer-events-none absolute top-1/2 hidden h-px w-8 -translate-y-1/2 bg-gradient-to-r from-zinc-300/70 to-transparent dark:from-white/20 md:block ${
+                            isLeft ? "right-0" : "left-0 rotate-180"
+                          }`}
+                        />
+
+                        <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                          <CalendarDays className="h-4 w-4" />
+                          <span>{e.date}</span>
+                        </div>
+                        <h4 className="mt-1 text-lg font-semibold text-zinc-900 dark:text-white">
+                          {e.title}
+                        </h4>
+                        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                          {e.text}
+                        </p>
+                        {e.tags?.length ? (
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {e.tags.map((t) => (
+                              <span
+                                key={t}
+                                className="rounded-full border border-zinc-200 bg-white/80 px-2.5 py-1 text-[11px] font-medium text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        ) : null}
+                      </motion.article>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* CERTIFICATES */}
+        <motion.section
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.38 }}
+          className="relative"
+        >
+          <div className="relative mx-auto max-w-5xl rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
+              Certificates
+            </h3>
+            {certificates.length > 0 ? (
+              <ul className="mt-4 grid gap-4 sm:grid-cols-2">
+                {certificates.map((c, i) => (
+                  <li
+                    key={i}
+                    className="rounded-2xl border border-zinc-200 bg-white/80 p-4 dark:border-white/10 dark:bg-white/5"
+                  >
+                    <p className="text-base font-semibold text-zinc-900 dark:text-white">
+                      {c.name}
+                    </p>
+                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                      {c.issuer}
+                      {c.year ? ` • ${c.year}` : ""}
+                    </p>
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                      {c.credentialId && (
+                        <span className="rounded border border-zinc-200 bg-white/80 px-2 py-0.5 dark:border:white/10 dark:bg-white/5">
+                          ID: {c.credentialId}
+                        </span>
+                      )}
+                      {c.url && (
+                        <Link
+                          href={c.url}
+                          target="_blank"
+                          className="rounded border border-zinc-200 bg:white/80 px-2 py-0.5 underline-offset-2 hover:underline dark:border-white/10 dark:bg-white/5"
+                        >
+                          Verify
+                        </Link>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className="mt-4 rounded-2xl border border-dashed border-zinc-300 p-6 text-center text-sm text-zinc-600 dark:border-white/10 dark:text-zinc-400">
+                No certificates yet. Add them in the{" "}
+                <code className="rounded bg-white/60 px-1 py-0.5 dark:bg-white/10">
+                  certificates
+                </code>{" "}
+                array in this file.
+              </div>
+            )}
+          </div>
+        </motion.section>
+
+        {/* VALUES */}
+        <motion.div
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.38 }}
+          className="relative rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5"
+        >
+          <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
+            Values
+          </h3>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {[
+              "Clarity",
+              "Reliability",
+              "Curiosity",
+              "Respect for users",
+              "Craft",
+            ].map((v) => (
+              <span
+                key={v}
+                className="rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
+              >
+                {v}
+              </span>
+            ))}
+          </div>
+        </motion.div>
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center"
+          {...fadeUp}
+          transition={{ ...fadeUp.transition, delay: 0.42 }}
+          className="flex flex-col items-center justify-center gap-3 text-center"
         >
-          <a
+          <p className="text-sm text-muted-foreground">
+            Want the quick tour of my builds?
+          </p>
+          <Link
             href="/projects"
-            className="inline-block px-5 py-3 sm:px-6 sm:py-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm sm:text-base font-semibold hover:opacity-90 transition shadow-md"
+            className="inline-block rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:opacity-90 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300"
           >
-            View My Work →
-          </a>
+            Browse Projects →
+          </Link>
         </motion.div>
       </section>
     </main>
