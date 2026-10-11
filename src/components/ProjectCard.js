@@ -42,7 +42,7 @@ export default function ProjectCard({ project, feature = false, priority = false
 
   return (
     <article
-      className={`spotlight group rounded-2xl border border-line bg-surface p-2.5 transition-colors hover:border-foreground/20 ${
+      className={`spotlight tilt group rounded-2xl border border-line bg-surface p-2.5 hover:border-foreground/20 ${
         feature ? 'sm:grid sm:grid-cols-[1.35fr_1fr] sm:gap-2' : 'flex flex-col'
       }`}
     >

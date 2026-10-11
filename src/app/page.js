@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
 import HeroGrid from '@/components/HeroGrid';
-import AboutBento from '@/components/AboutBento';
+import AtAGlance from '@/components/AtAGlance';
 import AsciiGlobe from '@/components/AsciiGlobe';
 import ProjectCard from '@/components/ProjectCard';
 import Scramble from '@/components/Scramble';
+import Shell from '@/components/Shell';
 import { ArrowLink, Section } from '@/components/ui';
 import { projects, site } from '@/data/site';
 
@@ -28,7 +29,7 @@ export default function Home() {
       <main>
         <div className="mx-auto max-w-page px-5 sm:px-6">
           {/* Hero */}
-          <section className="grid items-center gap-10 pb-16 pt-16 sm:pb-20 sm:pt-28 md:grid-cols-[minmax(0,1fr)_19rem] md:gap-4">
+          <section className="grid items-center gap-10 pb-16 pt-16 sm:pb-20 sm:pt-28 md:grid-cols-[minmax(0,1fr)_21rem] md:gap-4">
             <div>
               <p
                 className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 py-1 pl-2.5 pr-3 text-xs text-muted backdrop-blur-sm"
@@ -88,29 +89,41 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="reveal mx-auto w-full max-w-[19rem] md:mx-0" style={{ '--d': '300ms' }}>
+            <div className="reveal mx-auto w-full max-w-[21rem] md:mx-0" style={{ '--d': '300ms' }}>
               <AsciiGlobe />
             </div>
           </section>
 
+          {/* Interactive terminal */}
+          <Section label="01 · Shell" title="Poke around">
+            <p className="-mt-4 mb-6 max-w-prose text-pretty text-muted">
+              A working terminal. Type <span className="font-mono text-foreground">help</span> to see what it can do.
+            </p>
+            <Shell />
+          </Section>
+
           {/* Projects */}
           <Section
-            label="01 · Selected work"
+            label="02 · Selected work"
             title="Things I've built"
             action={<ArrowLink href="/projects">All projects</ArrowLink>}
           >
             <div className="grid gap-4 sm:grid-cols-2">
-              {featured.map((p, i) => (
-                <div key={p.slug} className={i === 0 ? 'sm:col-span-2' : ''}>
-                  <ProjectCard project={p} feature={i === 0} />
-                </div>
-              ))}
+              {featured.map((p, i) => {
+                // First card is wide; the last one goes wide too if it would otherwise sit alone
+                const wide = i === 0 || (i === featured.length - 1 && i % 2 === 1);
+                return (
+                  <div key={p.slug} className={wide ? 'sm:col-span-2' : ''}>
+                    <ProjectCard project={p} feature={wide} />
+                  </div>
+                );
+              })}
             </div>
           </Section>
 
           {/* Background */}
-          <Section label="02 · Background" title="At a glance" action={<ArrowLink href="/about">About me</ArrowLink>}>
-            <AboutBento />
+          <Section label="03 · Background" title="At a glance" action={<ArrowLink href="/about">About me</ArrowLink>}>
+            <AtAGlance />
           </Section>
 
           {/* Contact */}
@@ -121,7 +134,7 @@ export default function Home() {
                 className="dot-grid pointer-events-none absolute inset-0 rounded-[inherit] mask-[radial-gradient(ellipse_60%_80%_at_100%_100%,black,transparent_70%)]"
               />
               <p className="eyebrow relative flex items-center gap-2">
-                <span className="text-accent">03</span>
+                <span className="text-accent">04</span>
                 <span className="h-px w-4 bg-line" aria-hidden />
                 Contact
               </p>

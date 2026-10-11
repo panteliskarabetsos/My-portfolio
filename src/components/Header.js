@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Menu, Search, X } from 'lucide-react';
+import { Menu, SquareTerminal, X } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import { OPEN_EVENT } from './CommandMenu';
 import { nav } from '@/data/site';
@@ -67,10 +67,10 @@ export default function Header() {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event(OPEN_EVENT))}
-            aria-label="Open command menu"
+            aria-label="Open terminal"
             className="group flex h-9 items-center gap-1.5 rounded-md px-2 text-muted transition-colors hover:text-foreground"
           >
-            <Search size={15} aria-hidden />
+            <SquareTerminal size={16} aria-hidden />
             <kbd className="kbd transition-colors group-hover:text-foreground">
               {mod === '⌘' ? '⌘K' : 'Ctrl K'}
             </kbd>
@@ -82,10 +82,10 @@ export default function Header() {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event(OPEN_EVENT))}
-            aria-label="Open command menu"
+            aria-label="Open terminal"
             className="grid h-9 w-9 place-items-center rounded-md text-muted transition-colors hover:text-foreground"
           >
-            <Search size={16} aria-hidden />
+            <SquareTerminal size={17} aria-hidden />
           </button>
           <ThemeToggle />
           <button

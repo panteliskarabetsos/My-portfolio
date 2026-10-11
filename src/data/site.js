@@ -97,19 +97,6 @@ export const projects = [
     featured: true,
   },
   {
-    slug: "booknow",
-    title: "BookNow",
-    subtitle: "Apartment rental platform",
-    description:
-      "Full-stack vacation rental app: search by city, dates and guests, check availability and book, backed by a custom REST API.",
-    highlights: ["Search & filtering", "Availability checks", "REST API"],
-    tech: ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"],
-    image: "/images/booknow.png",
-    github: "https://github.com/panteliskarabetsos/BookNow",
-    demo: "https://book-now-amber.vercel.app/",
-    featured: true,
-  },
-  {
     slug: "ir-search",
     title: "Wikipedia Search Engine",
     subtitle: "Crawler, inverted index & ranking",
