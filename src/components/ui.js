@@ -46,11 +46,12 @@ function Label({ children }) {
   );
 }
 
-export function Section({ label, title, action, children, className = '', delay }) {
+export function Section({ id, label, title, action, children, className = '', delay }) {
   const animated = delay !== undefined;
   return (
     <section
-      className={`border-t border-line py-14 ${animated ? 'reveal' : 'reveal-scroll'} ${className}`}
+      id={id}
+      className={`scroll-mt-20 border-t border-line py-14 ${animated ? 'reveal' : 'reveal-scroll'} ${className}`}
       style={animated ? { '--d': `${delay}ms` } : undefined}
     >
       <div className="mb-8 flex items-end justify-between gap-4">

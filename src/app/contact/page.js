@@ -1,5 +1,5 @@
 import ContactForm from '@/components/ContactForm';
-import CopyEmail from '@/components/CopyEmail';
+import CopyButton from '@/components/CopyButton';
 import { Page, PageHeader } from '@/components/ui';
 import { site } from '@/data/site';
 
@@ -35,7 +35,7 @@ export default function Contact() {
               <a href={`mailto:${site.email}`} className="link break-all">
                 {site.email}
               </a>
-              <CopyEmail email={site.email} />
+              <CopyButton value={site.email} label="Copy email address" />
             </div>
           </div>
           {channels.map((c) => (

@@ -36,6 +36,23 @@ export const thesis = {
     { name: "ZOO", kind: "Black-box, score-based", note: "Zeroth-Order Optimization: estimates gradients from model confidence scores alone." },
     { name: "HopSkipJump", kind: "Black-box, decision-based", note: "Walks the decision boundary using only the final label, no scores or gradients." },
   ],
+  threatModels: [
+    {
+      level: "White-box",
+      knows: "Full access to the model, including its gradients.",
+      attacks: ["FGSM", "PGD"],
+    },
+    {
+      level: "Gray-box",
+      knows: "Knows the features and data, but not the target model. Crafts examples on a substitute and transfers them.",
+      attacks: ["MLP → RF", "RF → MLP"],
+    },
+    {
+      level: "Black-box",
+      knows: "Can only query the deployed model, seeing either confidence scores or just the final label.",
+      attacks: ["ZOO", "HopSkipJump"],
+    },
+  ],
   tools: ["PyTorch", "scikit-learn", "Adversarial Robustness Toolbox", "NumPy", "pandas"],
   // Ranges are reported exactly as in the thesis summary; nothing here is interpolated.
   results: [
