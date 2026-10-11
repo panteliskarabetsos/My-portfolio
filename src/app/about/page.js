@@ -23,7 +23,7 @@ export const metadata = {
 export default function About() {
   return (
     <Page>
-      <header className="grid gap-8 pb-14 pt-14 sm:grid-cols-[1fr,11rem] sm:gap-12 sm:pt-24">
+      <header className="grid gap-8 pb-14 pt-14 sm:grid-cols-[1fr_11rem] sm:gap-12 sm:pt-24">
         <div>
           <p className="eyebrow reveal">About</p>
           <h1 className="reveal mt-3 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl" style={{ '--d': '60ms' }}>
@@ -55,7 +55,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className="reveal relative order-first aspect-square w-28 overflow-hidden rounded-2xl border border-line sm:order-none sm:mt-10 sm:w-44" style={{ '--d': '60ms' }}>
+        <div className="reveal relative order-first aspect-square w-28 overflow-hidden rounded-2xl border border-line sm:order-0 sm:mt-10 sm:w-44" style={{ '--d': '60ms' }}>
           <Image
             src="/images/profile.jpg"
             alt="Portrait of Pantelis Karabetsos"
@@ -125,7 +125,7 @@ export default function About() {
       <Section label="04 · Skills" title="Toolbox">
         <dl className="divide-y divide-line">
           {skills.map((s) => (
-            <div key={s.group} className="grid gap-1 py-3 sm:grid-cols-[9rem,1fr] sm:gap-6">
+            <div key={s.group} className="grid gap-1 py-3 sm:grid-cols-[9rem_1fr] sm:gap-6">
               <dt className="font-mono text-xs leading-6 text-muted">{s.group}</dt>
               <dd className="text-[15px]">{s.items.join(' · ')}</dd>
             </div>

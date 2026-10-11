@@ -150,8 +150,8 @@ export default function CommandMenu() {
   let lastGroup = null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center px-4 pt-[12vh]" onKeyDown={onKeyDown}>
-      <div className="reveal absolute inset-0 bg-background/60 backdrop-blur-sm" style={{ '--d': '0ms' }} onClick={hide} aria-hidden />
+    <div className="fixed inset-0 z-100 flex items-start justify-center px-4 pt-[12vh]" onKeyDown={onKeyDown}>
+      <div className="reveal absolute inset-0 bg-background/60 backdrop-blur-xs" style={{ '--d': '0ms' }} onClick={hide} aria-hidden />
       <div
         role="dialog"
         aria-modal="true"
@@ -171,7 +171,7 @@ export default function CommandMenu() {
             aria-expanded="true"
             aria-controls="command-list"
             aria-activedescendant={results[active] ? `cmd-${active}` : undefined}
-            className="h-12 w-full bg-transparent text-[15px] outline-none placeholder:text-muted"
+            className="h-12 w-full bg-transparent text-[15px] outline-hidden placeholder:text-muted"
           />
           <kbd className="kbd">esc</kbd>
         </div>
@@ -194,7 +194,7 @@ export default function CommandMenu() {
                   onMouseMove={() => setActive(i)}
                   onClick={() => execute(cmd)}
                   className={`flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                    isActive ? 'bg-foreground/[0.06] text-foreground' : 'text-muted'
+                    isActive ? 'bg-foreground/6 text-foreground' : 'text-muted'
                   }`}
                 >
                   <Icon size={16} aria-hidden className={isActive ? 'text-accent' : ''} />

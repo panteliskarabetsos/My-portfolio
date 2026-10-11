@@ -13,12 +13,12 @@ function BrowserFrame({ src, alt, url, priority, sizes, fill = false }) {
         <span className="h-2 w-2 rounded-full bg-foreground/15" />
         <span className="h-2 w-2 rounded-full bg-foreground/15" />
         {url && (
-          <span className="mx-auto max-w-[60%] truncate rounded-md bg-foreground/[0.05] px-2.5 py-0.5 font-mono text-[10px] text-muted">
+          <span className="mx-auto max-w-[60%] truncate rounded-md bg-foreground/5 px-2.5 py-0.5 font-mono text-[10px] text-muted">
             {host(url)}
           </span>
         )}
       </div>
-      <div className={`relative overflow-hidden ${fill ? 'aspect-[16/10] sm:aspect-auto sm:min-h-64 sm:flex-1' : 'aspect-[16/10]'}`}>
+      <div className={`relative overflow-hidden ${fill ? 'aspect-16/10 sm:aspect-auto sm:min-h-64 sm:flex-1' : 'aspect-16/10'}`}>
         <Image
           src={src}
           alt={alt}
@@ -43,7 +43,7 @@ export default function ProjectCard({ project, feature = false, priority = false
   return (
     <article
       className={`spotlight group rounded-2xl border border-line bg-surface p-2.5 transition-colors hover:border-foreground/20 ${
-        feature ? 'sm:grid sm:grid-cols-[1.35fr,1fr] sm:gap-2' : 'flex flex-col'
+        feature ? 'sm:grid sm:grid-cols-[1.35fr_1fr] sm:gap-2' : 'flex flex-col'
       }`}
     >
       {image && (
@@ -65,7 +65,7 @@ export default function ProjectCard({ project, feature = false, priority = false
                 href={primary}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="outline-none after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:after:outline focus-visible:after:outline-2 focus-visible:after:outline-accent"
+                className="outline-hidden after:absolute after:inset-0 after:rounded-2xl after:content-[''] focus-visible:after:outline-solid focus-visible:after:outline-2 focus-visible:after:outline-accent"
               >
                 {title}
               </a>

@@ -29,7 +29,7 @@ export default function Home() {
         {/* Hero */}
         <section className="pb-16 pt-16 sm:pb-20 sm:pt-28">
           <p
-            className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 py-1 pl-2.5 pr-3 text-xs text-muted backdrop-blur"
+            className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 py-1 pl-2.5 pr-3 text-xs text-muted backdrop-blur-sm"
             style={{ '--d': '0ms' }}
           >
             <span className="relative flex h-1.5 w-1.5">
@@ -53,7 +53,7 @@ export default function Home() {
           </p>
 
           <p
-            className="reveal mt-8 max-w-[36rem] text-pretty text-lg leading-relaxed sm:text-xl sm:leading-relaxed"
+            className="reveal mt-8 max-w-xl text-pretty text-lg leading-relaxed sm:text-xl sm:leading-relaxed"
             style={{ '--d': '200ms' }}
           >
             I study how machine-learning intrusion detectors fail, so they can be built to hold.{' '}
@@ -79,7 +79,7 @@ export default function Home() {
                     href={href}
                     aria-label={name}
                     {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    className="grid h-9 w-9 place-items-center rounded-full text-muted transition-colors hover:bg-foreground/[0.05] hover:text-foreground"
+                    className="grid h-9 w-9 place-items-center rounded-full text-muted transition-colors hover:bg-foreground/5 hover:text-foreground"
                   >
                     <Icon size={17} aria-hidden />
                   </a>
@@ -99,7 +99,7 @@ export default function Home() {
               { k: 'Focus', v: 'NetSec · IDS', extra: <span className="text-muted">Forensics</span> },
               { k: 'Thesis', v: 'Adversarial ML', extra: <span className="text-muted">{thesis.date}</span> },
             ].map((item) => (
-              <div key={item.k} className="bg-background/80 px-4 py-3.5 backdrop-blur">
+              <div key={item.k} className="bg-background/80 px-4 py-3.5 backdrop-blur-sm">
                 <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">{item.k}</dt>
                 <dd className="mt-1.5 text-sm font-medium">{item.v}</dd>
                 <dd className="font-mono text-[11px]">{item.extra}</dd>
@@ -178,7 +178,7 @@ export default function Home() {
         {/* Contact */}
         <section className="reveal-scroll pb-4 pt-6">
           <div className="spotlight rounded-2xl border border-line bg-surface px-6 py-12 sm:px-12 sm:py-16">
-            <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 rounded-[inherit] [mask-image:radial-gradient(ellipse_60%_80%_at_100%_100%,black,transparent_70%)]" />
+            <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 rounded-[inherit] mask-[radial-gradient(ellipse_60%_80%_at_100%_100%,black,transparent_70%)]" />
             <p className="eyebrow relative flex items-center gap-2">
               <span className="text-accent">04</span>
               <span className="h-px w-4 bg-line" aria-hidden />

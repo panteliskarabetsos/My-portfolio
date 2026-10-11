@@ -133,7 +133,7 @@ export default function EvasionDemo() {
         </div>
       </div>
 
-      <div className="grid gap-0 sm:grid-cols-[1fr,12rem]">
+      <div className="grid gap-0 sm:grid-cols-[1fr_12rem]">
         <div className="relative px-2 pt-2 sm:px-3">
           <svg
             viewBox={`0 0 ${VW} ${VH}`}
@@ -142,7 +142,7 @@ export default function EvasionDemo() {
             aria-label={`Scatter plot: with an attack budget of ${eps.toFixed(2)}, ${evaded} of ${MALICIOUS.length} malicious flows cross into the benign region.`}
           >
             {/* benign region */}
-            <polygon points={REGION} className="fill-accent/[0.06]" />
+            <polygon points={REGION} className="fill-accent/6" />
             <rect x={sx(0)} y={sy(1)} width={sx(1) - sx(0)} height={sy(0) - sy(1)} className="fill-none stroke-line" />
             {/* decision boundary */}
             {LINE.length === 2 && (

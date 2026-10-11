@@ -10,7 +10,7 @@ export default function AttackFlow() {
   return (
     <figure className="rounded-xl border border-line bg-surface p-4 sm:p-5">
       <figcaption className="sr-only">How an evasion attack works</figcaption>
-      <ol className="grid gap-0 sm:grid-cols-[1fr,auto,1fr,auto,1fr,auto,1fr,auto,auto] sm:items-stretch">
+      <ol className="grid gap-0 sm:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_auto] sm:items-stretch">
         {steps.map((s, i) => (
           <li key={s.k} className="contents">
             <div className="rounded-lg border border-line bg-background p-3">

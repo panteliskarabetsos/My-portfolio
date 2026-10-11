@@ -47,7 +47,7 @@ const bibtex = `@mastersthesis{karabetsos2026adversarial,
 
 export default function Research() {
   return (
-    <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:grid lg:grid-cols-[minmax(0,52rem),10rem] lg:justify-center lg:gap-16">
+    <div className="mx-auto max-w-6xl px-5 sm:px-6 lg:grid lg:grid-cols-[minmax(0,52rem)_10rem] lg:justify-center lg:gap-16">
       <main className="min-w-0">
         {/* Header */}
         <header className="pb-12 pt-14 sm:pt-24">
@@ -126,7 +126,7 @@ export default function Research() {
                 <div className="flex items-center gap-2">
                   <span className="flex gap-0.5" aria-hidden>
                     {[0, 1, 2].map((d) => (
-                      <span key={d} className={`h-2 w-2 rounded-sm ${d < 3 - i ? 'bg-accent' : 'bg-foreground/15'}`} />
+                      <span key={d} className={`h-2 w-2 rounded-xs ${d < 3 - i ? 'bg-accent' : 'bg-foreground/15'}`} />
                     ))}
                   </span>
                   <p className="font-medium">{t.level}</p>
@@ -138,9 +138,9 @@ export default function Research() {
           </div>
           <p className="mt-4 flex items-center gap-2 font-mono text-[11px] text-muted">
             <span className="flex gap-0.5" aria-hidden>
-              <span className="h-1.5 w-1.5 rounded-sm bg-accent" />
-              <span className="h-1.5 w-1.5 rounded-sm bg-accent" />
-              <span className="h-1.5 w-1.5 rounded-sm bg-accent" />
+              <span className="h-1.5 w-1.5 rounded-xs bg-accent" />
+              <span className="h-1.5 w-1.5 rounded-xs bg-accent" />
+              <span className="h-1.5 w-1.5 rounded-xs bg-accent" />
             </span>
             more attacker knowledge
           </p>
@@ -154,7 +154,7 @@ export default function Research() {
               { k: 'Clean detection', v: 'Over 99% for both models' },
               { k: 'Tooling', v: 'Python, PyTorch, scikit-learn, Adversarial Robustness Toolbox' },
             ].map((s) => (
-              <div key={s.k} className="grid gap-1 py-3 sm:grid-cols-[9rem,1fr] sm:gap-6">
+              <div key={s.k} className="grid gap-1 py-3 sm:grid-cols-[9rem_1fr] sm:gap-6">
                 <dt className="font-mono text-xs leading-6 text-muted">{s.k}</dt>
                 <dd className="text-[15px]">{s.v}</dd>
               </div>
@@ -188,7 +188,7 @@ export default function Research() {
                 boundary, even if the resulting values describe traffic that could never exist.
               </p>
             </div>
-            <div className="rounded-xl border border-accent/40 bg-accent/[0.05] p-5">
+            <div className="rounded-xl border border-accent/40 bg-accent/5 p-5">
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">Realistic constraints</p>
               <p className="mt-2 font-medium">Timing and packet size only</p>
               <p className="mt-2 text-sm text-muted">
@@ -215,7 +215,7 @@ export default function Research() {
         <Section id="findings" label="06 · Findings" title="What it means for defenders">
           <ol className="space-y-6">
             {thesis.findings.map((f, i) => (
-              <li key={i} className="grid grid-cols-[3rem,1fr] gap-2">
+              <li key={i} className="grid grid-cols-[3rem_1fr] gap-2">
                 <span className="font-mono text-xs leading-7 text-accent">{i < questions.length ? `RQ${i + 1}` : '→'}</span>
                 <p className="text-pretty text-[15px] leading-relaxed">{f}</p>
               </li>

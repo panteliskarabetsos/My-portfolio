@@ -25,7 +25,7 @@ export default function Contact() {
         </p>
       </PageHeader>
 
-      <div className="reveal grid gap-12 sm:grid-cols-[1fr,14rem]" style={{ '--d': '180ms' }}>
+      <div className="reveal grid gap-12 sm:grid-cols-[1fr_14rem]" style={{ '--d': '180ms' }}>
         <ContactForm />
 
         <aside className="space-y-6 text-sm">

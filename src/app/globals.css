@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: 250 250 250;
@@ -26,6 +26,162 @@
   color-scheme: dark;
 }
 
+@theme inline {
+  --color-background: rgb(var(--background));
+  --color-surface: rgb(var(--surface));
+  --color-foreground: rgb(var(--foreground));
+  --color-muted: rgb(var(--muted));
+  --color-line: rgb(var(--line));
+  --color-accent: rgb(var(--accent));
+  --color-chart: rgb(var(--chart));
+
+  --font-sans:
+    var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+
+  --container-page: 52rem;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: rgb(var(--line));
+  }
+}
+
+@utility eyebrow {
+  /* Small mono label used above every section */
+  @apply font-mono text-[11px] uppercase tracking-[0.18em] text-muted;
+}
+
+@utility link {
+  /* Underline that grows from the left on hover */
+  @apply bg-size-[0%_1px] bg-bottom-left bg-no-repeat pb-px transition-[background-size] duration-300;
+  background-image: linear-gradient(currentColor, currentColor);
+  &:hover {
+    background-size: 100% 1px;
+  }
+}
+
+@utility chip {
+  @apply inline-flex items-center rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted;
+}
+
+@utility btn {
+  @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors;
+}
+
+@utility btn-primary {
+  @apply btn bg-foreground text-background hover:bg-foreground/85;
+}
+
+@utility btn-ghost {
+  @apply btn border border-line text-foreground hover:bg-foreground/4;
+}
+
+@utility dot-grid {
+  background-image: radial-gradient(rgb(var(--grid-dot)) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(
+    ellipse 70% 60% at 30% 0%,
+    black,
+    transparent 75%
+  );
+}
+
+@utility dot-grid-glow {
+  /* Accent dots that only show in a soft circle around the cursor */
+  background-image:
+    radial-gradient(rgb(var(--accent)) 1.4px, transparent 1.4px),
+    linear-gradient(rgb(var(--accent) / 0.04), rgb(var(--accent) / 0.04));
+  background-size:
+    22px 22px,
+    100% 100%;
+  mask-image: radial-gradient(
+    200px circle at var(--gx, -999px) var(--gy, -999px),
+    black,
+    transparent 70%
+  );
+  -webkit-mask-image: radial-gradient(
+    200px circle at var(--gx, -999px) var(--gy, -999px),
+    black,
+    transparent 70%
+  );
+  transition: opacity 0.4s;
+}
+
+@utility spotlight {
+  /* Cards: a border highlight and faint glow that follow the cursor (vars set by <Spotlight />) */
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  &::before {
+    inset: -1px;
+    padding: 1px;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--accent) / 0.55),
+      transparent 60%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+  }
+  &::after {
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--foreground) / 0.035),
+      transparent 60%
+    );
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+@utility kbd {
+  @apply inline-flex h-5 min-w-5 items-center justify-center rounded-sm border border-line bg-background px-1 font-mono text-[10px] text-muted;
+}
+
+
 @layer base {
   html {
     -webkit-font-smoothing: antialiased;
@@ -45,89 +201,6 @@
     outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
     border-radius: 4px;
-  }
-}
-
-@layer components {
-  /* Small mono label used above every section */
-  .eyebrow {
-    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-muted;
-  }
-
-  /* Underline that grows from the left on hover */
-  .link {
-    @apply bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-px transition-[background-size] duration-300;
-    background-image: linear-gradient(currentColor, currentColor);
-  }
-  .link:hover {
-    background-size: 100% 1px;
-  }
-
-  .chip {
-    @apply inline-flex items-center rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted;
-  }
-
-  .btn {
-    @apply inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors;
-  }
-  .btn-primary {
-    @apply btn bg-foreground text-background hover:bg-foreground/85;
-  }
-  .btn-ghost {
-    @apply btn border border-line text-foreground hover:bg-foreground/[0.04];
-  }
-
-  .dot-grid {
-    background-image: radial-gradient(rgb(var(--grid-dot)) 1px, transparent 1px);
-    background-size: 22px 22px;
-    mask-image: radial-gradient(ellipse 70% 60% at 30% 0%, black, transparent 75%);
-  }
-
-  /* Accent dots that only show in a soft circle around the cursor */
-  .dot-grid-glow {
-    background-image:
-      radial-gradient(rgb(var(--accent)) 1.4px, transparent 1.4px),
-      linear-gradient(rgb(var(--accent) / 0.04), rgb(var(--accent) / 0.04));
-    background-size: 22px 22px, 100% 100%;
-    mask-image: radial-gradient(200px circle at var(--gx, -999px) var(--gy, -999px), black, transparent 70%);
-    -webkit-mask-image: radial-gradient(200px circle at var(--gx, -999px) var(--gy, -999px), black, transparent 70%);
-    transition: opacity 0.4s;
-  }
-
-  /* Cards: a border highlight and faint glow that follow the cursor (vars set by <Spotlight />) */
-  .spotlight {
-    position: relative;
-    isolation: isolate;
-  }
-  .spotlight::before,
-  .spotlight::after {
-    content: '';
-    position: absolute;
-    border-radius: inherit;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .spotlight::before {
-    inset: -1px;
-    padding: 1px;
-    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent) / 0.55), transparent 60%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
-  }
-  .spotlight::after {
-    inset: 0;
-    z-index: -1;
-    background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--foreground) / 0.035), transparent 60%);
-  }
-  .spotlight:hover::before,
-  .spotlight:hover::after {
-    opacity: 1;
-  }
-
-  .kbd {
-    @apply inline-flex h-5 min-w-5 items-center justify-center rounded border border-line bg-background px-1 font-mono text-[10px] text-muted;
   }
 }
 

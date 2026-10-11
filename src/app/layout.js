@@ -10,8 +10,8 @@ import CommandMenu from '@/components/CommandMenu';
 import Spotlight from '@/components/Spotlight';
 import { site, thesis } from '@/data/site';
 
-const sans = Geist({ subsets: ['latin'], variable: '--font-sans' });
-const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' });
+const sans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' });
+const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' });
 
 export const metadata = {
   metadataBase: new URL(site.url),
@@ -75,7 +75,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <a
             href="#content"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-60 focus:rounded-md focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background"
           >
             Skip to content
           </a>

@@ -56,7 +56,7 @@ export default function Header() {
               aria-current={isActive(item.href) ? 'page' : undefined}
               className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
                 isActive(item.href)
-                  ? 'bg-foreground/[0.06] text-foreground'
+                  ? 'bg-foreground/6 text-foreground'
                   : 'text-muted hover:text-foreground'
               }`}
             >

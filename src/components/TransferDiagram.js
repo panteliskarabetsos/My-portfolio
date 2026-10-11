@@ -9,7 +9,7 @@ export default function TransferDiagram() {
         </p>
       </figcaption>
 
-      <div className="grid grid-cols-[auto,1fr,auto] items-center gap-3 sm:gap-5">
+      <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3 sm:gap-5">
         <Node name="MLP" sub="neural network" />
 
         <div className="space-y-5">
@@ -30,7 +30,7 @@ export default function TransferDiagram() {
 
 function Node({ name, sub }) {
   return (
-    <div className="grid h-[4.5rem] w-[4.5rem] place-items-center rounded-xl border border-line bg-background text-center sm:h-24 sm:w-24">
+    <div className="grid h-18 w-18 place-items-center rounded-xl border border-line bg-background text-center sm:h-24 sm:w-24">
       <div>
         <p className="font-mono text-lg font-semibold">{name}</p>
         <p className="px-1 text-[9px] leading-tight text-muted sm:text-[10px]">{sub}</p>

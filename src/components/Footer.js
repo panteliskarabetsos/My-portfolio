@@ -14,7 +14,7 @@ const ext = (href) => (href.startsWith('http') || href.endsWith('.pdf') ? { targ
 export default function Footer() {
   return (
     <footer className="mt-24 border-t border-line">
-      <div className="mx-auto grid max-w-page gap-10 px-5 py-12 sm:grid-cols-[1fr,auto,auto] sm:gap-16 sm:px-6">
+      <div className="mx-auto grid max-w-page gap-10 px-5 py-12 sm:grid-cols-[1fr_auto_auto] sm:gap-16 sm:px-6">
         <div>
           <Link href="/" className="inline-flex items-center gap-2 font-mono text-sm">
             <span className="grid h-7 w-7 place-items-center rounded-md border border-line text-[11px] font-semibold">PK</span>

@@ -7,7 +7,7 @@ const MAX_LEN = 2000;
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const field =
-  'w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-[15px] outline-none transition-colors placeholder:text-muted/70 focus:border-foreground/40';
+  'w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-[15px] outline-hidden transition-colors placeholder:text-muted/70 focus:border-foreground/40';
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', message: '', company: '' });
@@ -85,7 +85,7 @@ export default function ContactForm() {
       </Field>
 
       {/* Honeypot: hidden from people, tempting to bots */}
-      <div aria-hidden className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+      <div aria-hidden className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
         <label htmlFor="company">Company</label>
         <input id="company" name="company" tabIndex={-1} autoComplete="off" value={form.company} onChange={update} />
       </div>

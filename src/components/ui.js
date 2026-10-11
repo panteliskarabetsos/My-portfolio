@@ -57,7 +57,7 @@ export function Section({ id, label, title, action, children, className = '', de
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
           {label && <Label>{label}</Label>}
-          {title && <h2 className="mt-3 text-2xl font-semibold tracking-[-0.025em]">{title}</h2>}
+          {title && <h2 className="mt-3 text-2xl font-semibold tracking-tight">{title}</h2>}
         </div>
         {action}
       </div>
@@ -102,7 +102,7 @@ export function Chips({ items, className = '' }) {
 /** Two-column row used for timelines: period on the left, content on the right. */
 export function Row({ meta, title, org, children }) {
   return (
-    <li className="grid gap-1 py-4 sm:grid-cols-[9rem,1fr] sm:gap-6">
+    <li className="grid gap-1 py-4 sm:grid-cols-[9rem_1fr] sm:gap-6">
       <p className="font-mono text-xs leading-6 text-muted">{meta}</p>
       <div>
         <p className="font-medium">

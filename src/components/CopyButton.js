@@ -20,7 +20,7 @@ export default function CopyButton({ value, label = 'Copy', text, className = ''
       type="button"
       onClick={copy}
       aria-label={copied ? 'Copied' : label}
-      className={`inline-flex h-8 min-w-8 items-center justify-center gap-1.5 rounded-md px-2 text-xs text-muted transition-colors hover:bg-foreground/[0.05] hover:text-foreground ${className}`}
+      className={`inline-flex h-8 min-w-8 items-center justify-center gap-1.5 rounded-md px-2 text-xs text-muted transition-colors hover:bg-foreground/5 hover:text-foreground ${className}`}
     >
       {copied ? <Check size={14} className="text-accent" aria-hidden /> : <Copy size={14} aria-hidden />}
       {text && <span>{copied ? 'Copied' : text}</span>}

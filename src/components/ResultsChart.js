@@ -24,7 +24,7 @@ export default function ResultsChart({ results = thesis.results }) {
           return (
             <div
               key={r.label}
-              className="group relative grid grid-cols-1 gap-2 sm:grid-cols-[11rem,1fr] sm:items-center sm:gap-4"
+              className="group relative grid grid-cols-1 gap-2 sm:grid-cols-[11rem_1fr] sm:items-center sm:gap-4"
             >
               <div className="flex items-baseline justify-between gap-3 sm:block">
                 <p className="text-sm">{r.label}</p>
@@ -76,7 +76,7 @@ export default function ResultsChart({ results = thesis.results }) {
         })}
 
         {/* axis */}
-        <div className="grid grid-cols-1 sm:grid-cols-[11rem,1fr] sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-[11rem_1fr] sm:gap-4">
           <span className="hidden sm:block" />
           <div className="relative h-4 font-mono text-[10px] text-muted">
             {ticks.map((t) => (
