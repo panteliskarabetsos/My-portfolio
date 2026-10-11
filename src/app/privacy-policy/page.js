@@ -1,22 +1,22 @@
 export const metadata = {
-    title: 'Privacy Policy | Pantelis Karabetsos',
-    description: 'Detailed privacy policy for visitors of panteliskarabetsos.com — learn how your data is handled and protected.',
+    title: 'Privacy Policy',
+    description: 'Detailed privacy policy for visitors of pkarabetsos.com — learn how your data is handled and protected.',
   };
   
   export default function PrivacyPolicyPage() {
     return (
-      <main className="max-w-3xl mx-auto px-4 pt-32 pb-24 text-zinc-800 dark:text-zinc-200">
-        <h1 className="text-4xl font-bold mb-6 text-gradient bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
+      <main className="max-w-page mx-auto px-5 sm:px-6 pt-14 sm:pt-20 text-[15px] leading-relaxed">
+        <h1 className="text-3xl font-semibold tracking-tight mb-6">
           Privacy Policy
         </h1>
   
-        <p className="mb-6 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mb-6 text-sm text-muted">
           Last updated: April 12, 2025
         </p>
   
         <div className="space-y-8 text-base leading-relaxed">
           <p>
-            This Privacy Policy describes how your personal information is collected, used and protected when you visit <strong>panteliskarabetsos.com</strong> (the "Site").
+            This Privacy Policy describes how your personal information is collected, used and protected when you visit <strong>pkarabetsos.com</strong> (the "Site").
           </p>
   
           <section>
@@ -30,7 +30,7 @@ export const metadata = {
             <h2 className="text-xl font-semibold mb-2">2. What data we collect</h2>
             <ul className="list-disc pl-6">
               <li><strong>Contact Form:</strong> Name, email address, message content, IP address and estimated location.</li>
-              <li><strong>Analytics:</strong> Non-identifiable data like page views, referrer URLs, browser type, screen resolution etc. collected anonymously via <a href="https://plausible.io" className="text-indigo-500 underline" target="_blank">Plausible Analytics</a>.</li>
+              <li><strong>Analytics:</strong> Non-identifiable data like page views, referrer URLs, browser type, screen resolution etc. collected anonymously via <a href="https://plausible.io" className="link text-accent" target="_blank">Plausible Analytics</a>.</li>
               <li><strong>Server Logs:</strong> Automatically collected IP addresses for spam prevention and debugging.</li>
             </ul>
           </section>
@@ -86,7 +86,7 @@ export const metadata = {
               <li>Request correction or deletion</li>
               <li>Withdraw consent at any time</li>
             </ul>
-            <p>To request deletion of your data, email <a href="mailto:contact@pkarabetsos.com" className="text-indigo-500 underline">contact@pkarabetsos.com</a>.</p>
+            <p>To request deletion of your data, email <a href="mailto:contact@pkarabetsos.com" className="link text-accent">contact@pkarabetsos.com</a>.</p>
           </section>
   
           <section>
@@ -103,7 +103,7 @@ export const metadata = {
             </p>
             <p>
               <strong>Pantelis Karabetsos</strong><br />
-              Email: <a href="mailto:contact@pkarabetsos.com" className="text-indigo-500 underline">contact@pkarabetsos.com</a>
+              Email: <a href="mailto:contact@pkarabetsos.com" className="link text-accent">contact@pkarabetsos.com</a>
             </p>
           </section>
         </div>

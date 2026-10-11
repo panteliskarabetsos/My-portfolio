@@ -1,31 +1,36 @@
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
+const token = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+
 module.exports = {
   darkMode: 'class',
   content: [
     './src/app/**/*.{js,ts,jsx,tsx}',
-    './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/data/**/*.{js,ts}',
   ],
   theme: {
     extend: {
-      animation: {
-        'ping-slow': 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
-      },
       colors: {
-        background: 'rgb(var(--background) / <alpha-value>)',
-        foreground: 'rgb(var(--foreground) / <alpha-value>)',
-        'muted-foreground': 'rgb(var(--muted-foreground) / <alpha-value>)',
-        primary: 'rgb(var(--primary) / <alpha-value>)',
+        background: token('background'),
+        surface: token('surface'),
+        foreground: token('foreground'),
+        muted: token('muted'),
+        line: token('line'),
+        accent: token('accent'),
+        chart: token('chart'),
       },
-
+      borderColor: {
+        DEFAULT: token('line'),
+      },
       fontFamily: {
-        sans: ['Inter', ...fontFamily.sans],
+        sans: ['var(--font-sans)', ...fontFamily.sans],
+        mono: ['var(--font-mono)', ...fontFamily.mono],
       },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      maxWidth: {
+        page: '52rem',
       },
     },
   },
-  plugins: [     require('tailwind-scrollbar-hide')],
+  plugins: [],
 };

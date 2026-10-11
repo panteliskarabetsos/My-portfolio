@@ -1,13 +1,13 @@
 // app/terms/page.jsx
 export const metadata = {
-    title: 'Terms of Use | Pantelis Karabetsos',
-    description: 'Όροι χρήσης για το προσωπικό portfolio του Pantelis Karabetsos.',
+    title: 'Terms of Use',
+    description: 'Terms of use for the personal website of Pantelis Karabetsos.',
   };
   
   export default function TermsPage() {
     return (
-      <main className="max-w-3xl mx-auto px-6 pt-36 pb-24 text-sm leading-relaxed text-foreground">
-        <h1 className="text-3xl font-bold mb-6 text-primary">Terms of Use</h1>
+      <main className="max-w-page mx-auto px-5 sm:px-6 pt-14 sm:pt-20 text-[15px] leading-relaxed">
+        <h1 className="text-3xl font-semibold tracking-tight mb-6">Terms of Use</h1>
   
         <p className="mb-4">
           Welcome to the personal website of Pantelis Karabetsos. By accessing or using this website, you agree to the following terms and conditions. If you do not agree, please refrain from using the site.
@@ -50,7 +50,7 @@ export const metadata = {
   
         <h2 className="text-xl font-semibold mt-8 mb-2">8. Contact</h2>
         <p>
-          For questions or concerns regarding these terms, please contact: <a href="mailto:contact@pkarabetsos.com" className="text-primary hover:underline">contact@pkarabetsos.com</a>
+          For questions or concerns regarding these terms, please contact: <a href="mailto:contact@pkarabetsos.com" className="link text-accent">contact@pkarabetsos.com</a>
         </p>
       </main>
     );

@@ -1,103 +1,92 @@
 import './globals.css';
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
-import CustomCursor from "./components/CustomCursor";
-import Header from './components/header';
-import Footer from './components/footer';
+import { Geist, Geist_Mono } from 'next/font/google';
 import Script from 'next/script';
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/react";
+import { ThemeProvider } from 'next-themes';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import CommandMenu from '@/components/CommandMenu';
+import Spotlight from '@/components/Spotlight';
+import { site, thesis } from '@/data/site';
 
-const inter = Inter({ subsets: ['latin'] });
+const sans = Geist({ subsets: ['latin'], variable: '--font-sans' });
+const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono' });
 
 export const metadata = {
-  title: 'Pantelis Karabetsos | Computer Engineer',
-  description: "Engineering ideas into reality — with a mix of logic, pixels, and a hint of chaos.",
-  keywords: [
-    'Pantelis Karabetsos',
-    'Pantelis Karabetsos portfolio',
-    'Pantelis Karabetsos projects',
-    'Pantelis Karabetsos developer',
-    'Pantelis Karabetsos engineer',
-    'Pantelis Karabetsos software engineer',
-    'Pantelis Karabetsos computer engineer',
-    'Pantelis Karabetsos web developer',
-    'software engineer portfolio',
-    'computer engineer portfolio',
-    'web developer portfolio',
-    'frontend developer',
-    'backend developer',
-    'full stack developer',
-    'developer portfolio',
-    'engineer portfolio',
-    'modern web development',
-    'creative developer',
-    'clean code developer',
-    'developer in Greece',
-    'remote developer',
-    'tech portfolio',
-    'tech projects',
-    'developer projects',
-    'personal website',
-    'portfolio site',
-    'interactive web design',
-    'user-centric developer',
-    'freelance developer',
-    'engineer personal site',
-  ],
-  icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-      { url: '/maskable-icon.png', sizes: '192x192', type: 'image/png', purpose: 'maskable' },
-    ],
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} · ${site.role}`,
+    template: `%s · ${site.name}`,
   },
+  description: site.description,
+  keywords: [
+    site.name,
+    'cybersecurity',
+    'network security',
+    'intrusion detection',
+    'adversarial machine learning',
+    'digital forensics',
+    'computer engineer',
+    'Athens',
+  ],
+  authors: [{ name: site.name, url: site.url }],
+  openGraph: {
+    type: 'website',
+    url: site.url,
+    siteName: site.name,
+    title: site.name,
+    description: site.description,
+    locale: 'en_US',
+  },
+  twitter: { card: 'summary_large_image', title: site.name, description: site.description },
+};
+
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fafafa' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+  ],
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  image: `${site.url}/images/profile.jpg`,
+  jobTitle: site.role,
+  email: `mailto:${site.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Athens', addressCountry: 'GR' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'University of West Attica' },
+  knowsAbout: ['Network security', 'Intrusion detection', 'Adversarial machine learning', 'Digital forensics', thesis.title],
+  sameAs: [site.github, site.linkedin],
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Plausible Analytics */}
-        <Script
-          async
-          defer
-          data-domain="panteliskarabetsos.com"
-          src="https://plausible.io/js/script.js"
-        />
-
-        {/* Favicon links fallback for extra reliability */}
-        <link rel="icon" href="/favicon.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-
-        {/* JSON-LD logo for Google */}
+    <html lang="en" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
+      <body className="min-h-screen font-sans">
+        <Script defer data-domain="panteliskarabetsos.com" src="https://plausible.io/js/script.js" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "Pantelis Karabetsos",
-              "url": "https://panteliskarabetsos.com",
-              "logo": "https://panteliskarabetsos.com/favicon.png",
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-      </head>
-
-      <body className={`${inter.className} cursor-none`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="bg-background text-foreground transition-colors duration-500 min-h-screen">
-            <Header />
-            <CustomCursor />
-            {children}
-            <Footer />
-            <SpeedInsights />
-            <Analytics />
-          </div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <a
+            href="#content"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-foreground focus:px-3 focus:py-2 focus:text-sm focus:text-background"
+          >
+            Skip to content
+          </a>
+          <Header />
+          <div id="content">{children}</div>
+          <Footer />
+          <CommandMenu />
+          <Spotlight />
         </ThemeProvider>
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );

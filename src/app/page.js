@@ -1,133 +1,204 @@
-"use client";
+import Link from 'next/link';
+import { ArrowRight, Download, Github, Linkedin, Mail } from 'lucide-react';
+import HeroGrid from '@/components/HeroGrid';
+import LocalTime from '@/components/LocalTime';
+import ProjectCard from '@/components/ProjectCard';
+import Scramble from '@/components/Scramble';
+import Terminal from '@/components/Terminal';
+import { ArrowLink, Page, Row, Section } from '@/components/ui';
+import { certifications, projects, site, thesis, training } from '@/data/site';
 
-import { motion, useCycle } from "framer-motion";
-import { useTheme } from "next-themes";
-import Header from "./components/header";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+export const metadata = {
+  alternates: { canonical: '/' },
+};
+
+const socials = [
+  { name: 'GitHub', href: site.github, icon: Github },
+  { name: 'LinkedIn', href: site.linkedin, icon: Linkedin },
+  { name: 'Email', href: `mailto:${site.email}`, icon: Mail },
+];
 
 export default function Home() {
-  const { theme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  const [colors, setColors] = useCycle(
-    "bg-orange-400",
-    "bg-amber-400",
-    "bg-rose-400",
-    "bg-yellow-400"
-  );
-  const [darkColors, setDarkColors] = useCycle(
-    "bg-indigo-500",
-    "bg-purple-600",
-    "bg-blue-500",
-    "bg-fuchsia-600"
-  );
-
-  const activeTheme = theme === "system" ? resolvedTheme : theme;
-
-  useEffect(() => {
-    if (!activeTheme) return;
-
-    setMounted(true);
-
-    const interval = setInterval(() => {
-      activeTheme === "dark" ? setDarkColors() : setColors();
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [activeTheme, setColors, setDarkColors]);
-
-  if (!mounted || !activeTheme) {
-    return (
-      <main className="min-h-screen bg-background text-foreground font-sans transition-colors overflow-hidden">
-        {/* Prevents early render of the Header before hydration */}
-        <div className="opacity-0 pointer-events-none"></div>
-      </main>
-    );
-  }
+  const featured = projects.filter((p) => p.featured);
 
   return (
-    <main className="relative min-h-screen bg-background text-foreground font-sans transition-colors overflow-hidden">
-      {/* Animated Blob */}
-      <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none transition-colors duration-1000"
-      >
-        <div
-          className={`w-[600px] h-[600px] rounded-full
-            blur-[70px] dark:blur-[110px]
-            opacity-80 dark:opacity-60
-            mix-blend-multiply dark:mix-blend-screen
-            transition-all duration-1000
-            ${activeTheme === "dark" ? darkColors : colors}`}
-        />
-      </motion.div>
+    <>
+      <HeroGrid />
 
-      {/* Hero Section */}
-      <section className="relative z-10 flex flex-col items-center justify-center text-center gap-8 sm:gap-12 px-4 sm:px-6 md:px-20 pt-24 sm:pt-32 pb-20 sm:pb-24 min-h-[calc(100vh-6rem)]">
-        <div className="space-y-8 max-w-3xl">
-          {/* Gradient Headline */}
-          <div className="text-5xl sm:text-5xl md:text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-indigo-500 via-purple-500 to-fuchsia-500 animate-gradient">
-            {["Engineer", "Builder", "Dreamer"].map((word, index) => (
-              <motion.div
-                key={word}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: index * 0.3,
-                  duration: 0.8,
-                  ease: "easeOut",
-                }}
-                className="my-1"
-              >
-                {word}
-              </motion.div>
-            ))}
+      <Page>
+        {/* Hero */}
+        <section className="pb-16 pt-16 sm:pb-20 sm:pt-28">
+          <p
+            className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface/70 py-1 pl-2.5 pr-3 text-xs text-muted backdrop-blur"
+            style={{ '--d': '0ms' }}
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60 motion-reduce:hidden" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+            </span>
+            Open to entry-level security roles
+          </p>
+
+          <h1
+            className="reveal mt-7 text-[2.75rem] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-7xl"
+            style={{ '--d': '80ms' }}
+          >
+            Pantelis
+            <br />
+            Karabetsos<span className="text-accent">.</span>
+          </h1>
+          <p className="reveal mt-4 font-mono text-[13px] text-muted" style={{ '--d': '140ms' }}>
+            <span className="text-accent">~/</span>
+            <Scramble text="informatics & computer engineer · network security · adversarial ml" />
+          </p>
+
+          <p
+            className="reveal mt-8 max-w-[36rem] text-pretty text-lg leading-relaxed sm:text-xl sm:leading-relaxed"
+            style={{ '--d': '200ms' }}
+          >
+            I study how machine-learning intrusion detectors fail, so they can be built to hold.{' '}
+            <span className="text-muted">
+              My thesis attacked ML-based NIDS with four adversarial techniques and measured what a realistic
+              attacker can actually get past them.
+            </span>
+          </p>
+
+          <div className="reveal mt-10 flex flex-wrap items-center gap-3" style={{ '--d': '260ms' }}>
+            <Link href="/research" className="btn-primary group">
+              Read the research
+              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </Link>
+            <a href={site.resume} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+              <Download size={15} aria-hidden />
+              Résumé
+            </a>
+            <ul className="ml-1 flex items-center gap-1">
+              {socials.map(({ name, href, icon: Icon }) => (
+                <li key={name}>
+                  <a
+                    href={href}
+                    aria-label={name}
+                    {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    className="grid h-9 w-9 place-items-center rounded-full text-muted transition-colors hover:bg-foreground/[0.05] hover:text-foreground"
+                  >
+                    <Icon size={17} aria-hidden />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/*  Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
-            className="text-sm sm:text-base md:text-lg text-zinc-400 dark:text-zinc-400 max-w-xl mx-auto leading-relaxed tracking-wide"
+          {/* At a glance */}
+          <dl
+            className="reveal mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4"
+            style={{ '--d': '320ms' }}
           >
-            Building the brains behind the interface.
-          </motion.p>
+            {[
+              { k: 'Based in', v: 'Athens, GR', extra: <LocalTime className="text-muted" /> },
+              { k: 'Degree', v: 'MEng · UNIWA', extra: <span className="text-muted">2020 – 2026</span> },
+              { k: 'Focus', v: 'NetSec · IDS', extra: <span className="text-muted">Forensics</span> },
+              { k: 'Thesis', v: 'Adversarial ML', extra: <span className="text-muted">{thesis.date}</span> },
+            ].map((item) => (
+              <div key={item.k} className="bg-background/80 px-4 py-3.5 backdrop-blur">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted">{item.k}</dt>
+                <dd className="mt-1.5 text-sm font-medium">{item.v}</dd>
+                <dd className="font-mono text-[11px]">{item.extra}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
 
-          {/* Contact Button */}
-          <Link href="/projects">
-            <motion.button
-              whileHover={{
-                scale: 1.1,
-                boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
-              }}
-              whileTap={{ scale: 0.98 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.4,
-                ease: "easeOut",
-                type: "spring",
-                bounce: 0.25,
-              }}
-              className={`mt-6 px-6 py-3 sm:px-8 sm:py-4 rounded-full text-white font-semibold 
-                transition-all bg-gradient-to-r 
-                ${
-                  activeTheme === "dark"
-                    ? "from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700"
-                    : "from-amber-400 to-pink-400 hover:from-amber-500 hover:to-pink-500"
-                } 
-                hover:opacity-90 
-                shadow-lg ring-2 ring-transparent hover:ring-amber-200 dark:hover:ring-indigo-200 
-                backdrop-blur-xl text-sm sm:text-base lg:text-lg`}
-            >
-              View Projects
-            </motion.button>
-          </Link>
-        </div>
-      </section>
-    </main>
+        {/* Research */}
+        <Section
+          label="01 · Research"
+          title="Can ML intrusion detectors be fooled?"
+          action={<ArrowLink href="/research" className="hidden sm:inline-flex">Full write-up</ArrowLink>}
+        >
+          <p className="max-w-prose text-pretty text-muted">
+            For my MEng thesis I trained an MLP and a Random Forest on {thesis.dataset}, then attacked both with
+            FGSM, PGD, ZOO and HopSkipJump using PyTorch, scikit-learn and the Adversarial Robustness Toolbox.
+          </p>
+
+          <div className="mt-8">
+            <Terminal
+              title="thesis — nids-eval"
+              label="Summary of thesis results"
+              lines={[
+                { cmd: 'nids-eval --dataset cicids2017 --models mlp,rf --attacks fgsm,pgd,zoo,hsj' },
+                { key: 'clean detection', value: '> 99%' },
+                { key: 'evasion, unconstrained', value: '57.8 – 100%' },
+                { key: 'evasion, realistic constraints', value: '45.5 – 78.6%' },
+                { key: 'transfer mlp → rf', value: '100%' },
+                { key: 'transfer rf → mlp', value: '0 – 39%' },
+              ]}
+            />
+          </div>
+
+          <p className="mt-8 max-w-prose text-pretty text-[15px]">
+            Realistic constraints reduce evasion but don&apos;t eliminate it, and an attack that fails against one
+            model can succeed against another. Robustness has to be tested across models, not against a single
+            detector.
+          </p>
+          <ArrowLink href="/research" className="mt-4 sm:hidden">
+            Full write-up
+          </ArrowLink>
+        </Section>
+
+        {/* Projects */}
+        <Section
+          label="02 · Selected work"
+          title="Things I've built"
+          action={<ArrowLink href="/projects">All projects</ArrowLink>}
+        >
+          <div className="grid gap-4 sm:grid-cols-2">
+            {featured.map((p, i) => (
+              <div key={p.slug} className={i === 0 ? 'sm:col-span-2' : ''}>
+                <ProjectCard project={p} feature={i === 0} />
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        {/* Background */}
+        <Section
+          label="03 · Background"
+          title="Education & training"
+          action={<ArrowLink href="/about">About me</ArrowLink>}
+        >
+          <ul className="divide-y divide-line">
+            <Row meta="2020 – 2026" title="MEng, Informatics & Computer Engineering" org="University of West Attica" />
+            <Row meta={thesis.date} title="Thesis" org="Adversarial attacks on ML-based NIDS" />
+            <Row meta="Training" title={training[0].title} org={training[0].org} />
+            {certifications.slice(0, 2).map((c) => (
+              <Row key={c.name} meta="Certificate" title={c.name} org={c.issuer} />
+            ))}
+          </ul>
+        </Section>
+
+        {/* Contact */}
+        <section className="reveal-scroll pb-4 pt-6">
+          <div className="spotlight rounded-2xl border border-line bg-surface px-6 py-12 sm:px-12 sm:py-16">
+            <div aria-hidden className="dot-grid pointer-events-none absolute inset-0 rounded-[inherit] [mask-image:radial-gradient(ellipse_60%_80%_at_100%_100%,black,transparent_70%)]" />
+            <p className="eyebrow relative flex items-center gap-2">
+              <span className="text-accent">04</span>
+              <span className="h-px w-4 bg-line" aria-hidden />
+              Contact
+            </p>
+            <h2 className="relative mt-4 max-w-lg text-balance text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
+              Hiring for a security team? I&apos;d like to hear from you.
+            </h2>
+            <div className="relative mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Link href="/contact" className="btn-primary group">
+                Get in touch
+                <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" aria-hidden />
+              </Link>
+              <a href={`mailto:${site.email}`} className="link font-mono text-sm text-muted hover:text-foreground">
+                {site.email}
+              </a>
+            </div>
+          </div>
+        </section>
+      </Page>
+    </>
   );
 }

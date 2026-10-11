@@ -1,559 +1,157 @@
-"use client";
-
-import { motion, useScroll } from "framer-motion";
-import { useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import Link from 'next/link';
+import Image from 'next/image';
+import { Download } from 'lucide-react';
+import { ArrowLink, Page, Row, Section } from '@/components/ui';
 import {
-  LayoutDashboard,
-  Zap,
-  Code,
-  BrainCog,
-  Download,
-  Sparkles,
-  GraduationCap,
-  Globe2,
-  Mail,
-  Github,
-  Linkedin,
-  CalendarDays,
-  Rocket,
-  Briefcase,
-  ShieldCheck,
-} from "lucide-react";
+  certifications,
+  education,
+  experience,
+  languages,
+  site,
+  skills,
+  thesis,
+  training,
+} from '@/data/site';
+
+export const metadata = {
+  title: 'About',
+  description:
+    'Informatics & Computer Engineer (MEng, University of West Attica) with a thesis on adversarial attacks against ML-based intrusion detection. Training in digital forensics and offensive security.',
+  alternates: { canonical: '/about' },
+};
 
 export default function About() {
-  // Motion helpers
-  const fadeUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-20% 0px -10% 0px" },
-    transition: { duration: 0.6, ease: "easeOut" },
-  };
-
-  // Timeline + scroll progress
-  const tlRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: tlRef,
-    offset: ["start 0.9", "end 0.2"],
-  });
-
-  const timeline = [
-    {
-      date: "2025",
-      title: "Final year of M.Eng",
-      text: "Final year of studies in University of West Attica.",
-      icon: <Rocket className="h-4 w-4" />,
-      tags: ["Master of Engineering", "UNIWA"],
-    },
-    {
-      date: "2022",
-      title: "Started development and exploration",
-      text: "Developed web applications and a lot of University projects.",
-      icon: <Briefcase className="h-4 w-4" />,
-      tags: ["Web", "Python", "Java", "C/C++", "JavaScript"],
-    },
-    {
-      date: "2023",
-      title: "Started M.Eng.",
-      text: "University of West Attica - Informatics & Computer Engineering.",
-      icon: <GraduationCap className="h-4 w-4" />,
-      tags: ["Athens", "UNIWA"],
-    },
-  ];
-
-  const certificates = [
-    {
-      name: "Career Essentials in Cybersecurity",
-      issuer: "Microsoft",
-      year: "2025",
-      url: "https://www.linkedin.com/learning/certificates/2ea8615ffb07e941052c943470d765532c4e194d15fa52255461b95ed28484ad",
-    },
-    {
-      name: "Career Essentials in Data Analysis ",
-      issuer: "Microsoft",
-      year: "2025",
-      url: "https://www.linkedin.com/learning/certificates/afa9ab76624e5e327efa56ccd455ec4cf063ad7e239a3e30dc251f2f3b3d2084",
-    },
-    {
-      name: "Career Essentials in Generative AI ",
-      issuer: "Microsoft",
-      year: "2025",
-      url: "https://www.linkedin.com/learning/certificates/a1aa2bff8f1da79a4dd427eb3b62593862480b02e8ef3d8a7079580d34056b10",
-    },
-    {
-      name: "Career Essentials in GitHub Professional Certificate ",
-      issuer: "GitHub",
-      year: "2025",
-      url: "https://www.linkedin.com/learning/certificates/03b7d9e09872660a0398fd3c5e2ca2097927210c1718c80c0387e0db363b29ff",
-    },
-    {
-      name: "Workshop on Cybersecurity in Critical Sectors",
-      issuer: "University of Piraeus & University of West Attica",
-      year: "2025",
-    },
-    {
-      name: "Career Essentials in Software Development",
-      issuer: "Microsoft",
-      year: "2025",
-      url: "https://www.linkedin.com/learning/certificates/a577679ee6bdd94aaaf96fe64f7301bea1d29a4a13a8e2b8be9908e28f12480b",
-    },
-  ];
-
-  // Active year for sticky badge
-  const [activeYear, setActiveYear] = useState(timeline[0]?.date ?? "");
-
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 [mask-image:radial-gradient(ellipse_at_center,black,transparent_70%)]"
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.06)_1px,transparent_1px)] bg-[size:36px_36px] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)]" />
-      </div>
-
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 0.35, scale: [0.95, 1.05, 1] }}
-        transition={{ duration: 12, repeat: Infinity, repeatType: "reverse" }}
-        className="pointer-events-none absolute -top-40 -left-40 z-0 h-[620px] w-[620px] rounded-full blur-[160px]
-                   bg-gradient-to-br from-yellow-300 via-orange-300 to-pink-300
-                   dark:from-pink-500 dark:via-purple-600 dark:to-indigo-500"
-      />
-      <motion.div
-        aria-hidden
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 0.3, scale: [1, 1.08, 1] }}
-        transition={{ duration: 14, repeat: Infinity, repeatType: "reverse" }}
-        className="pointer-events-none absolute -bottom-44 -right-40 z-0 h-[540px] w-[540px] rounded-full blur-[140px]
-                   bg-gradient-to-br from-rose-300 via-amber-200 to-emerald-200
-                   dark:from-indigo-500 dark:via-sky-500 dark:to-cyan-400"
-      />
-
-      {/* ===== Content ===== */}
-      <section className="relative z-10 mx-auto flex max-w-6xl flex-col gap-14 px-6 pb-28 pt-32 md:px-8 md:pt-40">
-        {/* HERO */}
-        <header className="grid items-center gap-8 md:grid-cols-[auto,1fr] md:gap-10">
-          <motion.div
-            {...fadeUp}
-            className="relative mx-auto h-28 w-28 overflow-hidden rounded-2xl ring-1 ring-black/5 shadow-lg md:h-36 md:w-36 dark:ring-white/10"
-          >
-            <Image
-              src="/images/profile.jpg"
-              alt="Pantelis Karabetsos portrait"
-              fill
-              sizes="144px"
-              className="object-cover"
-              priority
-            />
-          </motion.div>
-
-          <motion.div
-            {...fadeUp}
-            transition={{ ...fadeUp.transition, delay: 0.1 }}
-            className="text-center md:text-left"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1 text-xs text-zinc-700 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-zinc-300">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-              </span>
-              Open to collaboration
-            </div>
-
-            <h1 className="mt-3 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl">
-              Hi, I’m Pantelis.
-            </h1>
-            <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Informatics & Computer Engineering student at the University of
-              West Attica, exploring software engineering, systems and
-              cybersecurity.
+    <Page>
+      <header className="grid gap-8 pb-14 pt-14 sm:grid-cols-[1fr,11rem] sm:gap-12 sm:pt-24">
+        <div>
+          <p className="eyebrow reveal">About</p>
+          <h1 className="reveal mt-3 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl" style={{ '--d': '60ms' }}>
+            Hi, I&apos;m Pantelis.
+          </h1>
+          <div className="reveal mt-5 space-y-4 text-pretty leading-relaxed text-muted" style={{ '--d': '120ms' }}>
+            <p>
+              I&apos;m an Informatics and Computer Engineer from Athens. I completed my integrated master&apos;s
+              (MEng) at the University of West Attica in 2026, with a thesis on{' '}
+              <Link href="/research" className="link text-foreground">
+                adversarial attacks against ML-based network intrusion detection
+              </Link>
+              .
             </p>
+            <p>
+              I like understanding systems well enough to break them, and then working out what it takes to
+              defend them. Recently I&apos;ve trained in digital forensics with the University of Patras
+              and practised offensive security on Hack The Box Academy.
+            </p>
+            <p className="text-foreground">{site.seeking}</p>
+          </div>
+          <div className="reveal mt-6 flex flex-wrap items-center gap-4" style={{ '--d': '180ms' }}>
+            <a href={site.resume} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+              <Download size={15} aria-hidden />
+              Download résumé
+            </a>
+            <ArrowLink href={site.linkedin}>LinkedIn</ArrowLink>
+            <ArrowLink href={site.github}>GitHub</ArrowLink>
+          </div>
+        </div>
 
-            <div className="mt-5 flex flex-wrap items-center justify-center gap-3 md:justify-start">
-              <Link
-                href="/projects"
-                className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300"
-              >
-                View my work →
-              </Link>
-              <Link
-                href="/Resume.pdf"
-                target="_blank"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-900 ring-1 ring-zinc-200 transition hover:bg-zinc-50 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300 dark:bg-white/10 dark:text-white dark:ring-white/10 dark:hover:bg-white/20"
-              >
-                <Download className="h-4 w-4" />
-                Download Resume
-              </Link>
+        <div className="reveal relative order-first aspect-square w-28 overflow-hidden rounded-2xl border border-line sm:order-none sm:mt-10 sm:w-44" style={{ '--d': '60ms' }}>
+          <Image
+            src="/images/profile.jpg"
+            alt="Portrait of Pantelis Karabetsos"
+            fill
+            sizes="160px"
+            priority
+            className="object-cover grayscale transition duration-500 hover:grayscale-0"
+          />
+        </div>
+      </header>
+
+      <Section label="01 · Education" title="Where I studied" delay={240}>
+        <ul className="divide-y divide-line">
+          {education.map((e) => (
+            <Row key={e.title} meta={e.period} title={e.title} org={e.org}>
+              {e.note}
+            </Row>
+          ))}
+          <Row meta={thesis.date} title="Thesis" org="Adversarial ML · Network security">
+            {thesis.title}. Trained an MLP and a Random Forest on {thesis.dataset} and evaluated FGSM, PGD, ZOO and
+            HopSkipJump attacks against them.
+          </Row>
+        </ul>
+      </Section>
+
+      <Section label="02 · Security training" title="Hands-on practice">
+        <ul className="divide-y divide-line">
+          {training.map((t) => (
+            <Row key={t.title} meta="Training" title={t.title} org={t.org}>
+              {t.note}
+            </Row>
+          ))}
+        </ul>
+      </Section>
+
+      <Section label="03 · Certifications" title="Courses & certificates">
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {certifications.map((c) => {
+            const body = (
+              <>
+                <p className="font-medium">{c.name}</p>
+                <p className="mt-0.5 text-sm text-muted">{c.issuer}</p>
+                {c.url && <p className="mt-3 font-mono text-[11px] text-accent">Verify credential ↗</p>}
+              </>
+            );
+            const cls = 'spotlight block h-full rounded-xl border border-line bg-surface p-4';
+            return (
+              <li key={c.name}>
+                {c.url ? (
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cls}
+                  >
+                    {body}
+                  </a>
+                ) : (
+                  <div className={cls}>{body}</div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </Section>
+
+      <Section label="04 · Skills" title="Toolbox">
+        <dl className="divide-y divide-line">
+          {skills.map((s) => (
+            <div key={s.group} className="grid gap-1 py-3 sm:grid-cols-[9rem,1fr] sm:gap-6">
+              <dt className="font-mono text-xs leading-6 text-muted">{s.group}</dt>
+              <dd className="text-[15px]">{s.items.join(' · ')}</dd>
             </div>
+          ))}
+        </dl>
+      </Section>
 
-            {/* Socials */}
-            <div className="mt-4 flex items-center justify-center gap-3 md:justify-start">
-              <Link
-                href="mailto:contact@pkarabetsos.com"
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1.5 text-xs text-zinc-700 transition hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
-              >
-                <Mail className="h-4 w-4" /> Contact
-              </Link>
-              <Link
-                href="https://github.com/panteliskarabetsos"
-                target="_blank"
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1.5 text-xs text-zinc-700 transition hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
-              >
-                <Github className="h-4 w-4" /> GitHub
-              </Link>
-              <Link
-                href="https://www.linkedin.com/in/panteliskarabetsos/"
-                target="_blank"
-                className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3 py-1.5 text-xs text-zinc-700 transition hover:bg-zinc-50 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
-              >
-                <Linkedin className="h-4 w-4" /> LinkedIn
-              </Link>
-            </div>
-          </motion.div>
-        </header>
+      <Section label="05 · Experience" title="Work">
+        <ul className="divide-y divide-line">
+          {experience.map((e) => (
+            <Row key={e.title} meta={e.period} title={e.title} org={e.org}>
+              {e.note}
+            </Row>
+          ))}
+        </ul>
+      </Section>
 
-        {/* QUICK STATS */}
-        <motion.ul
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.15 }}
-          className="grid gap-4 sm:grid-cols-2 md:grid-cols-3"
-        >
-          {[
-            {
-              icon: <GraduationCap className="h-5 w-5" />,
-              label: "Degree",
-              value: "Master of Engineering (in progress)",
-            },
-            {
-              icon: <Code className="h-5 w-5" />,
-              label: "Interests",
-              value: "Systems · Security · Software",
-            },
-            {
-              icon: <Globe2 className="h-5 w-5" />,
-              label: "Based in",
-              value: "Athens, GR",
-            },
-          ].map((item, i) => (
-            <li
-              key={i}
-              className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white/70 p-4 shadow-sm backdrop-blur transition hover:shadow-md dark:border-white/10 dark:bg-white/5"
-            >
-              <div className="mb-2 inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                {item.icon}
-                <span>{item.label}</span>
-              </div>
-              <p className="text-base font-semibold text-zinc-900 dark:text-white">
-                {item.value}
-              </p>
-              <span className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-indigo-500/10 via-purple-500/10 to-pink-500/10 blur-2xl transition group-hover:opacity-100" />
+      <Section label="06 · Languages" title="Spoken">
+        <ul className="flex flex-wrap gap-x-8 gap-y-2 text-[15px]">
+          {languages.map((l) => (
+            <li key={l.name}>
+              {l.name} <span className="text-muted">· {l.level}</span>
             </li>
           ))}
-        </motion.ul>
-
-        {/* ABOUT TEXT */}
-        <motion.div
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.2 }}
-          className="relative rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5"
-        >
-          <Sparkles className="absolute -left-3 -top-3 h-6 w-6 text-indigo-400" />
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">
-            About me
-          </h2>
-          <p className="mt-3 text-zinc-700 dark:text-zinc-300">
-            I am final year student of informatics and computer engineering at
-            the University of West Attica. I always try building efficient and
-            secure applications and I am always eager to learn new technologies
-            and improve my skills.
-          </p>
-        </motion.div>
-
-        {/* FOCUS AREAS */}
-        <motion.div
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.25 }}
-          className="relative grid gap-4 md:grid-cols-2"
-        >
-          {[
-            {
-              icon: <LayoutDashboard className="h-5 w-5 text-indigo-500" />,
-              title: "Systems thinking",
-              text: "Intuitive, adaptable solutions across client, server, and infrastructure.",
-            },
-            {
-              icon: <ShieldCheck className="h-5 w-5 text-emerald-500" />,
-              title: "Security mindset",
-              text: "Curious about threat models, hardening, and safe-by-default practices.",
-            },
-            {
-              icon: <Code className="h-5 w-5 text-orange-500" />,
-              title: "Code quality",
-              text: "Clean, testable, purposeful code with an eye on performance.",
-            },
-            {
-              icon: <BrainCog className="h-5 w-5 text-purple-500" />,
-              title: "Always learning",
-              text: "From patterns & architecture to exploratory security labs.",
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="group rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/5"
-            >
-              <div className="mb-2 inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                {item.icon}
-                <span className="font-medium text-zinc-900 dark:text-white">
-                  {item.title}
-                </span>
-              </div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                {item.text}
-              </p>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* TOOLBOX (grouped) */}
-        <motion.div
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.3 }}
-          className="grid gap-4 md:grid-cols-3"
-        >
-          {[
-            {
-              title: "Languages & Scripting",
-              items: ["Python", "C/C++", "Java", "JavaScript", "HTML/CSS"],
-            },
-            {
-              title: "Security & Infra",
-              items: [
-                "Linux",
-                "Docker",
-                "Git",
-                "Wireshark",
-                "Nginx",
-                " Command line",
-              ],
-            },
-            {
-              title: "Data & Tools",
-              items: ["PostgreSQL", "SQLite", "Regex", "CI/CD", "Testing"],
-            },
-          ].map((group, i) => (
-            <div
-              key={i}
-              className="rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5"
-            >
-              <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">
-                {group.title}
-              </h3>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {group.items.map((tool) => (
-                  <span
-                    key={tool}
-                    className="rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
-                  >
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* TIMELINE */}
-        <motion.section
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.35 }}
-          ref={tlRef}
-          className="relative"
-        >
-          <div className="relative mx-auto max-w-5xl rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-            <div className="flex items-center justify-between gap-3">
-              <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
-                Timeline
-              </h3>
-              <span className="sticky top-2 ml-auto hidden rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-semibold text-zinc-700 shadow-sm backdrop-blur md:inline-flex dark:border-white/10 dark:bg-white/10 dark:text-zinc-200">
-                {activeYear}
-              </span>
-            </div>
-
-            {/* rail */}
-            <div className="relative mt-8">
-              <div className="pointer-events-none absolute left-1/2 top-0 -z-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-zinc-300/70 to-transparent dark:via-white/20 md:block" />
-              <motion.div
-                style={{ scaleY: scrollYProgress }}
-                className="pointer-events-none absolute left-1/2 top-0 z-0 hidden h-full w-[3px] origin-top -translate-x-1/2 bg-gradient-to-b from-indigo-400 via-purple-400 to-pink-400 md:block"
-              />
-
-              <ol className="space-y-10 md:space-y-16" aria-label="Timeline">
-                {timeline.map((e, i) => {
-                  const isLeft = i % 2 === 0;
-                  return (
-                    <li key={i} className="relative md:flex md:items-center">
-                      {/* center marker */}
-                      <div className="pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block">
-                        <span className="relative inline-flex h-5 w-5 items-center justify-center rounded-full border border-white/40 bg-white shadow-md dark:border-white/20 dark:bg-zinc-900">
-                          <span className="absolute h-5 w-5 animate-ping rounded-full bg-gradient-to-br from-indigo-500 to-pink-500 opacity-20" />
-                          <span className="inline-flex h-2.5 w-2.5 rounded-full bg-gradient-to-br from-indigo-500 to-pink-500" />
-                        </span>
-                      </div>
-
-                      <motion.article
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
-                        transition={{
-                          duration: 0.5,
-                          ease: "easeOut",
-                          delay: 0.05 * i,
-                        }}
-                        onViewportEnter={() => setActiveYear(e.date)}
-                        className={`relative rounded-2xl border border-zinc-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-white/10 dark:bg-white/5 md:w-[calc(50%-2rem)] ${
-                          isLeft ? "md:mr-auto md:pr-12" : "md:ml-auto md:pl-12"
-                        }`}
-                      >
-                        {/* connector rail */}
-                        <span
-                          aria-hidden
-                          className={`pointer-events-none absolute top-1/2 hidden h-px w-8 -translate-y-1/2 bg-gradient-to-r from-zinc-300/70 to-transparent dark:from-white/20 md:block ${
-                            isLeft ? "right-0" : "left-0 rotate-180"
-                          }`}
-                        />
-
-                        <div className="flex items-center gap-2 text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                          <CalendarDays className="h-4 w-4" />
-                          <span>{e.date}</span>
-                        </div>
-                        <h4 className="mt-1 text-lg font-semibold text-zinc-900 dark:text-white">
-                          {e.title}
-                        </h4>
-                        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                          {e.text}
-                        </p>
-                        {e.tags?.length ? (
-                          <div className="mt-3 flex flex-wrap gap-2">
-                            {e.tags.map((t) => (
-                              <span
-                                key={t}
-                                className="rounded-full border border-zinc-200 bg-white/80 px-2.5 py-1 text-[11px] font-medium text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
-                              >
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        ) : null}
-                      </motion.article>
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          </div>
-        </motion.section>
-
-        {/* CERTIFICATES */}
-        <motion.section
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.38 }}
-          className="relative"
-        >
-          <div className="relative mx-auto max-w-5xl rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5">
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
-              Certificates
-            </h3>
-            {certificates.length > 0 ? (
-              <ul className="mt-4 grid gap-4 sm:grid-cols-2">
-                {certificates.map((c, i) => (
-                  <li
-                    key={i}
-                    className="rounded-2xl border border-zinc-200 bg-white/80 p-4 dark:border-white/10 dark:bg-white/5"
-                  >
-                    <p className="text-base font-semibold text-zinc-900 dark:text-white">
-                      {c.name}
-                    </p>
-                    <p className="text-sm text-zinc-600 dark:text-zinc-400">
-                      {c.issuer}
-                      {c.year ? ` • ${c.year}` : ""}
-                    </p>
-                    <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-                      {c.credentialId && (
-                        <span className="rounded border border-zinc-200 bg-white/80 px-2 py-0.5 dark:border:white/10 dark:bg-white/5">
-                          ID: {c.credentialId}
-                        </span>
-                      )}
-                      {c.url && (
-                        <Link
-                          href={c.url}
-                          target="_blank"
-                          className="rounded border border-zinc-200 bg:white/80 px-2 py-0.5 underline-offset-2 hover:underline dark:border-white/10 dark:bg-white/5"
-                        >
-                          Verify
-                        </Link>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="mt-4 rounded-2xl border border-dashed border-zinc-300 p-6 text-center text-sm text-zinc-600 dark:border-white/10 dark:text-zinc-400">
-                No certificates yet. Add them in the{" "}
-                <code className="rounded bg-white/60 px-1 py-0.5 dark:bg-white/10">
-                  certificates
-                </code>{" "}
-                array in this file.
-              </div>
-            )}
-          </div>
-        </motion.section>
-
-        {/* VALUES */}
-        <motion.div
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.38 }}
-          className="relative rounded-3xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-white/10 dark:bg-white/5"
-        >
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white">
-            Values
-          </h3>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {[
-              "Clarity",
-              "Reliability",
-              "Curiosity",
-              "Respect for users",
-              "Craft",
-            ].map((v) => (
-              <span
-                key={v}
-                className="rounded-full border border-zinc-200 bg-white/80 px-3 py-1 text-xs font-medium text-zinc-700 dark:border-white/10 dark:bg-white/5 dark:text-zinc-300"
-              >
-                {v}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          {...fadeUp}
-          transition={{ ...fadeUp.transition, delay: 0.42 }}
-          className="flex flex-col items-center justify-center gap-3 text-center"
-        >
-          <p className="text-sm text-muted-foreground">
-            Want the quick tour of my builds?
-          </p>
-          <Link
-            href="/projects"
-            className="inline-block rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:opacity-90 focus:outline-none focus-visible:ring-4 focus-visible:ring-indigo-300"
-          >
-            Browse Projects →
-          </Link>
-        </motion.div>
-      </section>
-    </main>
+        </ul>
+      </Section>
+    </Page>
   );
 }

@@ -1,32 +1,71 @@
 import nodemailer from 'nodemailer';
 
-export async function POST(req) {
-  const { name, email, message } = await req.json();
+const SITE = 'https://www.pkarabetsos.com';
+const LIMITS = { name: 100, email: 200, message: 2000 };
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-  const forwarded = req.headers.get("x-forwarded-for");
-  const ip = forwarded ? forwarded.split(",")[0] : req.headers.get("x-real-ip") || "Unknown";
+// Everything user-supplied is escaped before it is placed in HTML email bodies.
+const escapeHtml = (s) =>
+  s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 
-  //  IP
-  let location = "Unknown";
+// Header values (subject, reply-to) must not contain line breaks.
+const oneLine = (s) => s.replace(/[\r\n]+/g, ' ').trim();
+
+const json = (body, status) =>
+  new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
+
+async function lookupLocation(ip) {
+  if (!ip || ip === 'Unknown') return 'Unknown';
   try {
-    const geoRes = await fetch(`https://ipapi.co/${ip}/json/`, {
-      headers: {
-        'User-Agent': 'Node.js Contact Form',
-      },
+    const res = await fetch(`https://ipapi.co/${encodeURIComponent(ip)}/json/`, {
+      headers: { 'User-Agent': 'pkarabetsos.com contact form' },
+      signal: AbortSignal.timeout(3000),
     });
-    const geoData = await geoRes.json();
+    const geo = await res.json();
+    if (!geo || geo.error) return 'Unknown';
+    return `${geo.city || 'Unknown city'}, ${geo.country_name || 'Unknown country'}`;
+  } catch {
+    return 'Unknown';
+  }
+}
 
-    if (!geoData || geoData.error) {
-      console.warn("IP API returned error or empty response:", geoData);
-    } else {
-      const city = geoData.city || 'Unknown city';
-      const country = geoData.country_name || 'Unknown country';
-      location = `${city}, ${country}`;
-    }
-  } catch (err) {
-    console.warn("Geolocation fetch failed", err);
+export async function POST(req) {
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return json({ success: false, error: 'Invalid request' }, 400);
   }
 
+  const name = oneLine(String(body?.name ?? ''));
+  const email = oneLine(String(body?.email ?? ''));
+  const message = String(body?.message ?? '').trim();
+
+  // Honeypot filled in: pretend success so bots don't retry.
+  if (body?.company) return json({ success: true }, 200);
+
+  if (
+    !name ||
+    !message ||
+    !emailRe.test(email) ||
+    name.length > LIMITS.name ||
+    email.length > LIMITS.email ||
+    message.length > LIMITS.message
+  ) {
+    return json({ success: false, error: 'Invalid input' }, 400);
+  }
+
+  const forwarded = req.headers.get('x-forwarded-for');
+  const ip = forwarded ? forwarded.split(',')[0].trim() : req.headers.get('x-real-ip') || 'Unknown';
+  const location = await lookupLocation(ip);
+
+  const safe = {
+    name: escapeHtml(name),
+    email: escapeHtml(email),
+    message: escapeHtml(message).replace(/\n/g, '<br />'),
+    ip: escapeHtml(ip),
+    location: escapeHtml(location),
+  };
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -38,83 +77,55 @@ export async function POST(req) {
     },
   });
 
-  // Main email
-  const mailOptions = {
-    from: `"Pantelis Karabetsos" <${process.env.EMAIL_USER}>`,
+  const notification = {
+    from: `"pkarabetsos.com" <${process.env.EMAIL_USER}>`,
     replyTo: email,
     to: 'karapantelis21@gmail.com',
     subject: `New message from ${name}`,
-    text: message,
+    text: `${name} <${email}>\n${ip} · ${location}\n\n${message}`,
     html: `
-      <div style="font-family: 'Segoe UI'; background: #f9fafb; padding: 24px;">
-        <div style="max-width: 600px; margin: auto; background: #fff; border-radius: 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); border: 1px solid #e5e7eb;">
-          <div style="text-align: center; padding: 32px 24px; background: linear-gradient(to right, #6366f1, #8b5cf6); color: white;">
-            <h1 style="margin: 0; font-size: 22px;">📨 New Message</h1>
+      <div style="font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: #fafafa; padding: 24px;">
+        <div style="max-width: 600px; margin: auto; background: #fff; border-radius: 12px; border: 1px solid #e5e5e5;">
+          <div style="padding: 20px 24px; border-bottom: 1px solid #e5e5e5;">
+            <p style="margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #737373;">New message</p>
+            <h1 style="margin: 6px 0 0; font-size: 18px; color: #0a0a0a;">${safe.name}</h1>
           </div>
-          <div style="padding: 24px; color: #1f2937;">
-            <p><strong>👤 Name:</strong> ${name}</p>
-            <p><strong>📧 Email:</strong> ${email}</p>
-            <p><strong>🕓 Received:</strong> ${new Date().toLocaleString('en-GB', { timeZone: 'Europe/Athens' })}</p>
-            <p><strong>📍 IP Address:</strong> ${ip}</p>
-            <p><strong>🌍 Location:</strong> ${location}</p>
-          </div>
-          <div style="padding: 0 24px 24px;">
-            <p><strong>💬 Message:</strong></p>
-            <div style="background: #f3f4f6; border-radius: 12px; padding: 16px;">${message}</div>
+          <div style="padding: 20px 24px; font-size: 14px; color: #404040; line-height: 1.6;">
+            <p style="margin: 0;"><strong>Email:</strong> ${safe.email}</p>
+            <p style="margin: 0;"><strong>Received:</strong> ${new Date().toLocaleString('en-GB', { timeZone: 'Europe/Athens' })}</p>
+            <p style="margin: 0;"><strong>IP:</strong> ${safe.ip} · ${safe.location}</p>
+            <div style="margin-top: 16px; background: #f5f5f5; border-radius: 8px; padding: 16px; color: #0a0a0a;">${safe.message}</div>
           </div>
         </div>
       </div>
     `,
   };
 
-  // Auto-reply email
   const autoReply = {
     from: `"Pantelis Karabetsos" <noreply@pkarabetsos.com>`,
-    replyTo: "contact@pkarabetsos.com",
+    replyTo: 'contact@pkarabetsos.com',
     to: email,
-    subject: `We've received your message, ${name}!`,
+    subject: 'Thanks for your message',
+    text: `Hi ${name},\n\nThanks for getting in touch. I've received your message and will reply as soon as I can.\n\nPantelis Karabetsos\n${SITE}`,
     html: `
-    <div style="font-family: 'Segoe UI', Roboto, sans-serif; background: #f3f4f6; padding: 32px 16px;">
-      <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05); overflow: hidden; border: 1px solid #e5e7eb;">
-        
-        <!-- Banner -->
-        <div style="text-align: center; padding: 40px 24px; background: #4f46e5; background: linear-gradient(to right, #6366f1, #8b5cf6); color: #ffffff;">
-          <img src="https://panteliskarabetsos.com/favicon.ico" alt="Logo" width="48" height="48" style="border-radius: 12px; margin-bottom: 16px;" />
-          <h1 style="margin: 0; font-size: 24px; font-weight: 700;">✉️ Message Received</h1>
-          <p style="margin-top: 8px; font-size: 16px; font-weight: 500;">
-            We've got your message and will be in touch soon.
+      <div style="font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: #fafafa; padding: 32px 16px;">
+        <div style="max-width: 560px; margin: auto; background: #fff; border-radius: 12px; border: 1px solid #e5e5e5; padding: 32px 28px; font-size: 15px; line-height: 1.7; color: #262626;">
+          <p style="margin-top: 0;">Hi ${safe.name},</p>
+          <p>Thanks for getting in touch. I've received your message and will reply as soon as I can.</p>
+          <p style="margin-bottom: 0;">Pantelis Karabetsos<br />
+            <a href="${SITE}" style="color: #047857; text-decoration: none;">pkarabetsos.com</a>
           </p>
         </div>
-  
-        <!-- Body -->
-        <div style="padding: 32px 24px; font-size: 15px; color: #1f2937; line-height: 1.75;">
-          <p>Hi <strong>${name}</strong>,</p>
-          <p>Thank you for getting in touch! 👋</p>
-          <p>I've received your message and will respond as soon as possible.</p>
-          <p>If it's urgent, feel free to reply directly to this email.</p>
-        </div>
-  
-        <!-- Divider -->
-        <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 0 24px;" />
-  
-        <!-- Signature / Footer -->
-        <div style="padding: 24px; font-size: 14px; color: #6b7280; text-align: center;">
-          <p style="margin-bottom: 6px;">— Pantelis Karabetsos</p>
-          <a href="https://panteliskarabetsos.com" target="_blank" style="color: #6366f1; font-weight: 500; text-decoration: none;">
-            panteliskarabetsos.com
-          </a>
-        </div>
       </div>
-    </div>
-  `,
+    `,
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(notification);
     await transporter.sendMail(autoReply);
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
+    return json({ success: true }, 200);
   } catch (err) {
-    console.error("Email sending error:", err);
-    return new Response(JSON.stringify({ success: false, error: err.message }), { status: 500 });
+    console.error('Email sending error:', err);
+    return json({ success: false, error: 'Could not send message' }, 500);
   }
 }
